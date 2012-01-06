@@ -181,16 +181,18 @@
 			this._findBackgrounds();
 			
 			// Fix for Chrome background rendering bug
-			setTimeout(function(){
-				var oldLeft = self._getScrollLeft(),
-					oldTop = self._getScrollTop();
+			if (navigator.userAgent.indexOf('Chrome') > 0) {
+				$(window).load(function(){
+					var oldLeft = self._getScrollLeft(),
+						oldTop = self._getScrollTop();
 				
-				self._setScrollLeft(oldLeft + 1);
-				self._setScrollTop(oldTop + 1);
+					self._setScrollLeft(oldLeft + 1);
+					self._setScrollTop(oldTop + 1);
 				
-				self._setScrollLeft(oldLeft);
-				self._setScrollTop(oldTop);
-			}, 5);
+					self._setScrollLeft(oldLeft);
+					self._setScrollTop(oldTop);
+				});
+			}
 		},
 		_findParticles: function(){
 			var self = this,
