@@ -136,14 +136,8 @@
 			this._startAnimationLoop();
 		},
 		_defineElements: function() {
-			this.$element = this.element === window ? $('body') : $(this.element);
-			
-			if (this.options.scrollProperty === 'scroll') {
-				this.$scrollElement = this.element === window || this.element.nodeName === 'BODY' || this.element.nodeName === 'HTML' ? $(window) : this.$element;
-			} else {
-				this.$scrollElement = this.$element;
-			}
-			
+			this.$scrollElement = $(this.element);
+			this.$element = this.element === window ? $('body') : this.$scrollElement;
 			this.$viewportElement = (this.options.viewportElement !== undefined ? $(this.options.viewportElement) : (this.$scrollElement[0] === window ? this.$scrollElement : this.$scrollElement.parent()) );
 		},
 		_defineGetters: function() {
@@ -288,7 +282,11 @@
 			
 			if (!this.options.parallaxBackgrounds) return;
 			
-			$backgroundElements = this.$element.add(this.$element.find('[data-stellar-background-ratio]'));
+			$backgroundElements = this.$element.find('[data-stellar-background-ratio]');
+			
+			if (this.$element.is('[data-stellar-background-ratio]')) {
+				$backgroundElements.add(this.$element);
+			}
 			
 			$backgroundElements.each(function(){
 				var $this = $(this),
