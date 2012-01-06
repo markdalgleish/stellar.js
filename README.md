@@ -173,7 +173,7 @@ $.stellar.positionProperty.position = {
   },
   setLeft: function($element, newLeft, originalLeft) {
     $element.css('left', newLeft);
-  },
+  }
 }
 ```
 
