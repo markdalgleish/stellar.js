@@ -125,6 +125,49 @@ $('#gallery').stellar({
 
 Don't have the level of control you need? Write a plugin!
 
+Otherwise, you're ready to get started!
+
+Configuring Everything
+----------------------
+
+Below you will find a complete list of options and matching default values:
+
+``` js
+$.stellar({
+  // Set scrolling to be in either one or both directions
+  horizontalScrolling: true,
+  verticalScrolling: true,
+
+  // Set the global alignment offsets
+  horizontalOffset: 0,
+  verticalOffset: 0,
+
+  // Select which property is used to calculate scroll.
+  // Choose 'scroll', 'position', 'margin' or 'transform',
+  // or write your own 'scrollProperty' plugin.
+  scrollProperty: 'scroll',
+
+  // Select which property is used to position elements.
+  // Choose between 'position' or 'transform',
+  // or write your own 'positionProperty' plugin.
+  positionProperty: 'position',
+
+  // Enable or disable the two types of parallax
+  parallaxBackgrounds: true,
+  parallaxElements: true,
+
+  // Hide parallax elements that move outside the viewport
+  hideDistantElements: true,
+
+  // Set how often the viewport size is detected
+  viewportDetectionInterval: 1000,
+
+  // Customise how elements are shown and hidden
+  hideElement: function($elem) { $elem.hide(); },
+  showElement: function($elem) { $elem.show(); }
+});
+```
+
 Writing a Scroll Property Plugin
 --------------------------------
 
@@ -184,62 +227,6 @@ $.stellar({
   positionProperty: 'position'
 });
 ```
-
-Configuring Everything
-----------------------
-
-Below you will find a complete list of options and matching default values:
-
-``` js
-$.stellar({
-  // Set scrolling to be in either one or both directions
-  horizontalScrolling: true,
-  verticalScrolling: true,
-
-  // Set the global alignment offsets
-  horizontalOffset: 0,
-  verticalOffset: 0,
-
-  // Select which property is used to calculate scroll.
-  // Choose 'scroll', 'position', 'margin' or 'transform',
-  // or write your own 'scrollProperty' plugin.
-  scrollProperty: 'scroll',
-
-  // Select which property is used to position elements.
-  // Choose between 'position' or 'transform',
-  // or write your own 'positionProperty' plugin.
-  positionProperty: 'position',
-
-  // Enable or disable the two types of parallax
-  parallaxBackgrounds: true,
-  parallaxElements: true,
-
-  // Hide parallax elements that move outside the viewport
-  hideDistantElements: true,
-
-  // Set how often the viewport size is detected
-  viewportDetectionInterval: 1000,
-
-  // Customise how elements are shown and hidden
-  hideElement: function($elem) { $elem.hide(); },
-  showElement: function($elem) { $elem.show(); }
-});
-```
-
-Demos
------
-
-### Parallax Elements
-
-The best demonstration of parallax elements is on the [Stellar.js home page](http://markdalgleish.com/projects/stellar.js/). Other demos are listed below:
-
-### [Parallax Backgrounds](http://markdalgleish.com/projects/stellar.js/demos/backgrounds.html)
-
-While the home page shows off parallax elements, Stellar.js also supports parallax backgrounds.
-
-### [iOS (Using Scrollability)](http://markdalgleish.com/projects/stellar.js/demos/ios.html)
-
-Mobile Safari halts code execution during scroll so you can't use normal scroll events to animate. By using an iOS scrolling library we're able to bypass this limitation. In order to use Scrollability, Stellar.js is run against the scrolling element and the 'scrollProperty' option is set to 'transform'.
 
 Using Stellar.js on your site?
 ------------------------------
