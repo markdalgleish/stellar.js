@@ -180,8 +180,8 @@
 			this._findParticles();
 			this._findBackgrounds();
 			
-			// Fix for Chrome background rendering bug
-			if (navigator.userAgent.indexOf('Chrome') > 0) {
+			// Fix for Webkit background rendering bug
+			if (navigator.userAgent.indexOf('Webkit') > 0) {
 				$(window).load(function(){
 					var oldLeft = self._getScrollLeft(),
 						oldTop = self._getScrollTop();
