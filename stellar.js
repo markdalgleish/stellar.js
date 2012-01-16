@@ -138,7 +138,7 @@
 		_defineElements: function() {
 			this.$scrollElement = $(this.element);
 			this.$element = this.element === window ? $('body') : this.$scrollElement;
-			this.$viewportElement = (this.options.viewportElement !== undefined ? $(this.options.viewportElement) : (this.$scrollElement[0] === window ? this.$scrollElement : this.$scrollElement.parent()) );
+			this.$viewportElement = (this.options.viewportElement !== undefined ? $(this.options.viewportElement) : (this.$scrollElement[0] === window || this.options.scrollProperty.indexOf('scroll') === 0 ? this.$scrollElement : this.$scrollElement.parent()) );
 		},
 		_defineGetters: function() {
 			var self = this;
@@ -199,6 +199,12 @@
 				scrollLeft = this._getScrollLeft(),
 				scrollTop = this._getScrollTop();
 			
+			if (this.particles !== undefined) {
+				for (var i = this.particles.length - 1; i >= 0; i--) {
+					this.particles[i].$element.data('stellar-elementIsActive', undefined);
+				}
+			}
+			
 			this.particles = [];
 			
 			if (!this.options.parallaxElements) return;
@@ -216,6 +222,13 @@
 					parentOffsetTop = 0,
 					tempParentOffsetLeft = 0,
 					tempParentOffsetTop = 0;
+				
+				// Ensure this element isn't already part of another scrolling element
+				if ($this.data('stellar-elementIsActive') === undefined) {
+					$this.data('stellar-elementIsActive', true);
+				} else {
+					return;
+				}
 				
 				self.options.showElement($this);
 				
@@ -280,6 +293,12 @@
 				scrollTop = this._getScrollTop(),
 				$backgroundElements;
 			
+			if (this.background !== undefined) {
+				for (var i = this.backgrounds.length - 1; i >= 0; i--) {
+					this.backgrounds[i].$element.data('stellar-backgroundIsActive', undefined);
+				}
+			}
+			
 			this.backgrounds = [];
 			
 			if (!this.options.parallaxBackgrounds) return;
@@ -299,6 +318,13 @@
 					positionTop,
 					offsetLeft,
 					offsetTop;
+				
+				// Ensure this element isn't already part of another scrolling element
+				if ($this.data('stellar-backgroundIsActive') === undefined) {
+					$this.data('stellar-backgroundIsActive', true);
+				} else {
+					return;
+				}
 				
 				offsetLeft = $this.offset().left - parseInt($this.css('margin-left'), 10) - scrollLeft;
 				offsetTop = $this.offset().top - parseInt($this.css('margin-top'), 10) - scrollTop;
