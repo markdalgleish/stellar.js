@@ -1,4 +1,4 @@
-/* Stellar.js v0.1
+/* Stellar.js v0.2
  * Copyright 2012, Mark Dalgleish
  *
  * This content is released under the MIT License
@@ -171,7 +171,9 @@
 			};
 		},
 		refresh: function() {
-			var self = this;
+			var self = this,
+				oldLeft = self._getScrollLeft(),
+				oldTop = self._getScrollTop();
 			
 			this._setScrollLeft(0);
 			this._setScrollTop(0);
@@ -180,19 +182,22 @@
 			this._findParticles();
 			this._findBackgrounds();
 			
-			// Fix for Webkit background rendering bug
-			if (navigator.userAgent.indexOf('Webkit') > 0) {
+			// Fix for WebKit background rendering bug
+			if (navigator.userAgent.indexOf('WebKit') > 0) {
 				$(window).load(function(){
 					var oldLeft = self._getScrollLeft(),
 						oldTop = self._getScrollTop();
-				
+			
 					self._setScrollLeft(oldLeft + 1);
 					self._setScrollTop(oldTop + 1);
-				
+			
 					self._setScrollLeft(oldLeft);
 					self._setScrollTop(oldTop);
 				});
 			}
+			
+			self._setScrollLeft(oldLeft);
+			self._setScrollTop(oldTop);
 		},
 		_findParticles: function(){
 			var self = this,
@@ -224,16 +229,16 @@
 					tempParentOffsetTop = 0;
 				
 				// Ensure this element isn't already part of another scrolling element
-				if ($this.data('stellar-elementIsActive') === undefined) {
-					$this.data('stellar-elementIsActive', true);
-				} else {
+				if (!$this.data('stellar-elementIsActive')) {
+					$this.data('stellar-elementIsActive', this);
+				} else if ($this.data('stellar-elementIsActive') !== this) {
 					return;
 				}
 				
 				self.options.showElement($this);
 				
-				// Save/restore the original top and left CSS values in case we refresh the particles
-				if ($this.data('stellar-startingLeft') === undefined) {
+				// Save/restore the original top and left CSS values in case we refresh the particles or destroy the instance
+				if (!$this.data('stellar-startingLeft')) {
 					$this.data('stellar-startingLeft', $this.css('left'));
 					$this.data('stellar-startingTop', $this.css('top'));
 				} else {
@@ -293,12 +298,6 @@
 				scrollTop = this._getScrollTop(),
 				$backgroundElements;
 			
-			if (this.background !== undefined) {
-				for (var i = this.backgrounds.length - 1; i >= 0; i--) {
-					this.backgrounds[i].$element.data('stellar-backgroundIsActive', undefined);
-				}
-			}
-			
 			this.backgrounds = [];
 			
 			if (!this.options.parallaxBackgrounds) return;
@@ -320,10 +319,18 @@
 					offsetTop;
 				
 				// Ensure this element isn't already part of another scrolling element
-				if ($this.data('stellar-backgroundIsActive') === undefined) {
-					$this.data('stellar-backgroundIsActive', true);
-				} else {
+				if (!$this.data('stellar-backgroundIsActive')) {
+					$this.data('stellar-backgroundIsActive', this);
+				} else if ($this.data('stellar-backgroundIsActive') !== this) {
 					return;
+				}
+				
+				// Save/restore the original top and left CSS values in case we destroy the instance
+				if (!$this.data('stellar-backgroundStartingLeft')) {
+					$this.data('stellar-backgroundStartingLeft', backgroundPosition[0]);
+					$this.data('stellar-backgroundStartingTop', backgroundPosition[1]);
+				} else {
+					$this.css('background-position', $this.data('stellar-backgroundStartingLeft') + ' ' + $this.data('stellar-backgroundStartingTop'));
 				}
 				
 				offsetLeft = $this.offset().left - parseInt($this.css('margin-left'), 10) - scrollLeft;
@@ -349,6 +356,33 @@
 					stellarRatio: $this.data('stellar-background-ratio') === undefined ? 1 : $this.data('stellar-background-ratio')
 				});
 			});
+		},
+		destroy: function() {
+			var particle,
+				startingPositionLeft,
+				startingPositionTop,
+				background;
+
+			for (var i = this.particles.length - 1; i >= 0; i--) {
+				particle = this.particles[i];
+				startingPositionLeft = particle.$element.data('stellar-startingLeft');
+				startingPositionTop = particle.$element.data('stellar-startingTop');
+
+				this._setLeft(particle.$element, startingPositionLeft, startingPositionLeft);
+				this._setTop(particle.$element, startingPositionTop, startingPositionTop);
+
+				this.options.showElement(particle.$element);
+
+				particle.$element.data('stellar-startingLeft', null).data('stellar-elementIsActive', null).data('stellar-backgroundIsActive', null);
+			}
+
+			for (var i = this.backgrounds.length - 1; i >= 0; i--) {
+				background = this.backgrounds[i];
+				background.$element.css('background-position', background.startingValueLeft + ' ' + background.startingValueTop);
+			}
+
+			this._animationLoop = $.noop;
+			clearInterval(this._viewportDetectionInterval);
 		},
 		_setOffsets: function() {
 			var self = this;
@@ -467,12 +501,12 @@
 				};
 			
 			detect();
-			setInterval(detect, this.options.viewportDetectionInterval);
+			this._viewportDetectionInterval = setInterval(detect, this.options.viewportDetectionInterval);
 		},
 		_startAnimationLoop: function() {
 			var self = this,
 				requestAnimFrame = (function(){
-			      return window.requestAnimationFrame      || 
+					return window.requestAnimationFrame    || 
 						window.webkitRequestAnimationFrame || 
 						window.mozRequestAnimationFrame    || 
 						window.oRequestAnimationFrame      || 
@@ -480,12 +514,13 @@
 						function(callback, element){
 							window.setTimeout(callback, 1000 / 60);
 						};
-					})();
-						
-			(function animloop(){
-				requestAnimFrame(animloop);
-		    	self._repositionElements();
-		    })();
+				})();
+			
+			this._animationLoop = function(){
+				requestAnimFrame(self._animationLoop);
+				self._repositionElements();
+			};
+			this._animationLoop();
 		}
 	};
 
@@ -502,6 +537,9 @@
 				var instance = $.data(this, 'plugin_' + pluginName);
 				if (instance instanceof Plugin && typeof instance[options] === 'function') {
 					instance[options].apply(instance, Array.prototype.slice.call(args, 1));
+				}
+				if (options === 'destroy') {
+					$.data(this, 'plugin_' + pluginName, null);
 				}
 			});
 		}
