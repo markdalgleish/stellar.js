@@ -1,5 +1,10 @@
-/* Stellar.js v0.2
+/* Stellar.js v0.2.1
  * Copyright 2012, Mark Dalgleish
+ *
+ * Changelog:
+ * 0.2.1:
+ *	- allow for different horizontal and vertical ratios for greater control
+ *		- Clinton Montague - <https://github.com/slightlymore/stellar.js>
  *
  * This content is released under the MIT License
  * markdalgleish.mit-license.org
@@ -285,8 +290,8 @@
 					startingOffsetTop: offsetTop,
 					parentOffsetLeft: parentOffsetLeft,
 					parentOffsetTop: parentOffsetTop,
-					verticalRatio: $this.data('stellar-vertical-ratio') !== undefined ? $this.data('stellar-vertical-ratio') : 1,
-					horizontalRatio: $this.data('stellar-horizontal-ratio') !== undefined ? $this.data('stellar-horizontal-ratio') : 1,
+					verticalRatio: ($this.data('stellar-vertical-ratio') !== undefined ? $this.data('stellar-vertical-ratio') : ($this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1)),
+					horizontalRatio: ($this.data('stellar-horizontal-ratio') !== undefined ? $this.data('stellar-horizontal-ratio') : ($this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1)),
 					width: $this.outerWidth(true),
 					height: $this.outerHeight(true),
 					isHidden: false
