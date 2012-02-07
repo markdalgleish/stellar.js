@@ -448,7 +448,6 @@
 
 				//Calculate position, then calculate what the particle's new offset will be (for visibility check)
 				if (this.options.horizontalScrolling) {
-					console.log(particle.verticalRatio)
 					newPositionLeft = (scrollLeft + particle.horizontalOffset + this.viewportOffsetLeft + particle.startingPositionLeft - particle.startingOffsetLeft + particle.parentOffsetLeft) * -(particle.horizontalRatio + fixedRatioOffset - 1) + particle.startingPositionLeft;
 					newOffsetLeft = newPositionLeft - particle.startingPositionLeft + particle.startingOffsetLeft;
 				}
