@@ -3,11 +3,15 @@
  *
  * This content is released under the MIT License
  * markdalgleish.mit-license.org
+ * 
+ * 2012/02/15 - Added boolean option 'animationLoop' to disable _startAnimationLoop, improving iOS scroll performance when used in conjunction with Zynga Scroller (possibly Scrollability too, untested)
+ *              -- Scott Twede @ RED Interactive Agency
  */
 ;(function($, window, document, undefined){
 	
 	var pluginName = 'stellar',
 		defaults = {
+			animationLoop: true,
 			scrollProperty: 'scroll',
 			positionProperty: 'position',
 			horizontalScrolling: true,
@@ -505,6 +509,8 @@
 			this._viewportDetectionInterval = setInterval(detect, this.options.viewportDetectionInterval);
 		},
 		_startAnimationLoop: function() {
+			if (!this.options.animationLoop) return;
+
 			var self = this,
 				requestAnimFrame = (function(){
 					return window.requestAnimationFrame    || 
