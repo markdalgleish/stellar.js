@@ -1,4 +1,4 @@
-/* Stellar.js v0.2
+/* Stellar.js v0.2.1
  * Copyright 2012, Mark Dalgleish
  *
  * This content is released under the MIT License
@@ -136,6 +136,7 @@
 			this._startAnimationLoop();
 		},
 		_defineElements: function() {
+			if (this.element === document.body) this.element = window;
 			this.$scrollElement = $(this.element);
 			this.$element = this.element === window ? $('body') : this.$scrollElement;
 			this.$viewportElement = (this.options.viewportElement !== undefined ? $(this.options.viewportElement) : (this.$scrollElement[0] === window || this.options.scrollProperty.indexOf('scroll') === 0 ? this.$scrollElement : this.$scrollElement.parent()) );
