@@ -1,4 +1,4 @@
-/* Stellar.js v0.2.1
+/* Stellar.js v0.2.2
  * Copyright 2012, Mark Dalgleish
  *
  * This content is released under the MIT License
@@ -554,4 +554,7 @@
 	//Expose the scroll and position property function hashes so they can be extended
 	$[pluginName].scrollProperty = scrollProperty;
 	$[pluginName].positionProperty = positionProperty;
+	
+	//Expose the plugin class so it can be modified
+	window.Stellar = Plugin;
 })(jQuery, window, document);
