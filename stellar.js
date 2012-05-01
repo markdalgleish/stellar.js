@@ -1,4 +1,4 @@
-/* Stellar.js v0.2.2
+/* Stellar.js v0.2.3
  * Copyright 2012, Mark Dalgleish
  *
  * This content is released under the MIT License
@@ -221,6 +221,8 @@
 					verticalOffset,
 					positionLeft,
 					positionTop,
+					marginLeft,
+					marginTop,
 					$offsetParent,
 					offsetLeft,
 					offsetTop,
@@ -250,25 +252,9 @@
 				positionLeft = $this.position().left;
 				positionTop = $this.position().top;
 
-				// Catch-all for margin left properties (this evaluates to 'auto' in IE7 and IE8)
-				if($this.css('margin-left') == "auto")
-				{
-					marginLeft = parseInt("0px", 10);
-				}
-				else
-				{
-					marginLeft = parseInt($this.css('margin-left'), 10);
-				}
-
-				// Catch-all for margin top properties (this evaluates to 'auto' in IE7 and IE8)
-				if($this.css('margin-top') == "auto")
-				{
-					marginTop = parseInt("0px", 10);
-				}
-				else
-				{
-					marginTop = parseInt($this.css('margin-top'), 10);
-				}
+				// Catch-all for margin top/left properties (these evaluate to 'auto' in IE7 and IE8)
+				marginLeft = ($this.css('margin-left') === 'auto') ? 0 : parseInt($this.css('margin-left'), 10);
+				marginTop = ($this.css('margin-top') === 'auto') ? 0 : parseInt($this.css('margin-top'), 10);
 
 				offsetLeft = $this.offset().left - marginLeft;
 				offsetTop = $this.offset().top - marginTop;
