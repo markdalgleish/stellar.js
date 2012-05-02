@@ -72,9 +72,9 @@
 			} else if ($.browser.mozilla) {
 				prefix = '-moz-';
 			} else if ($.browser.opera) {
-				prefix = '-o-'
+				prefix = '-o-';
 			} else if ($.browser.msie) {
-				prefix = '-ms-'
+				prefix = '-ms-';
 			}
 
 			return prefix;
@@ -322,6 +322,8 @@
 					verticalOffset,
 					positionLeft,
 					positionTop,
+					marginLeft,
+					marginTop,
 					offsetLeft,
 					offsetTop;
 
@@ -340,25 +342,9 @@
 					$this.css('background-position', $this.data('stellar-backgroundStartingLeft') + ' ' + $this.data('stellar-backgroundStartingTop'));
 				}
 
-				// Catch-all for margin left properties (this evaluates to 'auto' in IE7 and IE8)
-				if($this.css('margin-left') == "auto")
-				{
-					marginLeft = parseInt("0px", 10);
-				}
-				else
-				{
-					marginLeft = parseInt($this.css('margin-left'), 10);
-				}
-
-				// Catch-all for margin top properties (this evaluates to 'auto' in IE7 and IE8)
-				if($this.css('margin-top') == "auto")
-				{
-					marginTop = parseInt("0px", 10);
-				}
-				else
-				{
-					marginTop = parseInt($this.css('margin-top'), 10);
-				}
+				// Catch-all for margin top/left properties (these evaluate to 'auto' in IE7 and IE8)
+				marginLeft = ($this.css('margin-left') === 'auto') ? 0 : parseInt($this.css('margin-left'), 10);
+				marginTop = ($this.css('margin-top') === 'auto') ? 0 : parseInt($this.css('margin-top'), 10);
 
 				offsetLeft = $this.offset().left - marginLeft - scrollLeft;
 				offsetTop = $this.offset().top - marginTop - scrollTop;
@@ -388,9 +374,10 @@
 			var particle,
 				startingPositionLeft,
 				startingPositionTop,
-				background;
+				background,
+				i;
 
-			for (var i = this.particles.length - 1; i >= 0; i--) {
+			for (i = this.particles.length - 1; i >= 0; i--) {
 				particle = this.particles[i];
 				startingPositionLeft = particle.$element.data('stellar-startingLeft');
 				startingPositionTop = particle.$element.data('stellar-startingTop');
@@ -403,7 +390,7 @@
 				particle.$element.data('stellar-startingLeft', null).data('stellar-elementIsActive', null).data('stellar-backgroundIsActive', null);
 			}
 
-			for (var i = this.backgrounds.length - 1; i >= 0; i--) {
+			for (i = this.backgrounds.length - 1; i >= 0; i--) {
 				background = this.backgrounds[i];
 				background.$element.css('background-position', background.startingValueLeft + ' ' + background.startingValueTop);
 			}
@@ -449,7 +436,8 @@
 				newPositionLeft,
 				newPositionTop,
 				newOffsetLeft,
-				newOffsetTop;
+				newOffsetTop,
+				i;
 
 			//First check that the scroll position or container size has changed
 			if (this.currentScrollLeft === scrollLeft && this.currentScrollTop === scrollTop && this.currentWidth === this.viewportWidth && this.currentHeight === this.viewportHeight) {
@@ -462,7 +450,7 @@
 			}
 
 			//Reposition elements
-			for (var i = this.particles.length - 1; i >= 0; i--) {
+			for (i = this.particles.length - 1; i >= 0; i--) {
 				particle = this.particles[i];
 
 				fixedRatioOffset = particle.isFixed ? 1 : 0;
@@ -505,7 +493,7 @@
 			}
 
 			//Reposition backgrounds
-			for (var i = this.backgrounds.length - 1; i >= 0; i--) {
+			for (i = this.backgrounds.length - 1; i >= 0; i--) {
 				background = this.backgrounds[i];
 
 				fixedRatioOffset = background.isFixed ? 0 : 1;
@@ -523,8 +511,8 @@
 					self.viewportWidth = self.$viewportElement.width();
 					self.viewportHeight = self.$viewportElement.height();
 
-			   		self.viewportOffsetTop = viewportOffsets !== null ? viewportOffsets.top : 0;
-			   		self.viewportOffsetLeft = viewportOffsets !== null ? viewportOffsets.left : 0;
+					self.viewportOffsetTop = viewportOffsets !== null ? viewportOffsets.top : 0;
+					self.viewportOffsetLeft = viewportOffsets !== null ? viewportOffsets.left : 0;
 				};
 
 			detect();
