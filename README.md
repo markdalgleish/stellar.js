@@ -232,11 +232,14 @@ Sites Using Stellar.js
 ----------------------
 
 [Magic City](http://mc.starz.com)
+
 [François Hollande](http://www.parti-socialiste.fr/latimelineduchangement)
+
 [WS Interactive](http://www.ws-interactive.fr/methode)
+
 [360 Strategy Group](http://360strategygroup.com)
 
-I'm sure there are heaps more. [Let me know if you'd like me to feature your site here.]((http://twitter.com/markdalgleish))
+I'm sure there are heaps more. [Let me know if you'd like me to feature your site here.](http://twitter.com/markdalgleish)
 
 How to Build
 ------------
