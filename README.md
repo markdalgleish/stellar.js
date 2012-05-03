@@ -231,13 +231,10 @@ $.stellar({
 Sites Using Stellar.js
 ----------------------
 
-[Magic City](http://mc.starz.com)
-
-[François Hollande](http://www.parti-socialiste.fr/latimelineduchangement)
-
-[WS Interactive](http://www.ws-interactive.fr/methode)
-
-[360 Strategy Group](http://360strategygroup.com)
+* [Magic City](http://mc.starz.com)
+* [François Hollande](http://www.parti-socialiste.fr/latimelineduchangement)
+* [WS Interactive](http://www.ws-interactive.fr/methode)
+* [360 Strategy Group](http://360strategygroup.com)
 
 I'm sure there are heaps more. [Let me know if you'd like me to feature your site here.](http://twitter.com/markdalgleish)
 
@@ -273,6 +270,6 @@ Contact me on GitHub or Twitter: [@markdalgleish](http://twitter.com/markdalglei
 License
 -------
 
-Copyright 2012, Mark Dalgleish
-This content is released under the MIT license
+Copyright 2012, Mark Dalgleish  
+This content is released under the MIT license  
 http://markdalgleish.mit-license.org
