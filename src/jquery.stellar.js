@@ -1,9 +1,3 @@
-/* Stellar.js v0.2.3
- * Copyright 2012, Mark Dalgleish
- *
- * This content is released under the MIT License
- * markdalgleish.mit-license.org
- */
 ;(function($, window, document, undefined){
 
 	var pluginName = 'stellar',
