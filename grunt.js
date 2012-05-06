@@ -16,8 +16,11 @@ module.exports = function(grunt) {
 			microbanner: '/*! <%= pkg.title || pkg.name %> v<%= pkg.version %> | Copyright <%= grunt.template.today("yyyy") %>, <%= pkg.author.name %> | <%= pkg.homepage %> | <%= _.pluck(pkg.licenses, "url").join(", ") %> */'
 		},
 		lint: {
-			files: ['grunt.js', 'src/**/*.js']
+			files: ['grunt.js', 'test/**/*.js', 'src/**/*.js']
 		},
+		qunit: {
+      files: ['test/**/*.html']
+    },
 		concat: {
 			dist: {
 				src: ['<banner:meta.banner>', '<file_strip_banner:src/<%= pkg.name %>.js>'],
@@ -56,6 +59,6 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', 'lint concat min');
+	grunt.registerTask('default', 'lint qunit concat min');
 
 };
