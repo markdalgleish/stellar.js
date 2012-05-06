@@ -35,7 +35,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			files: '<config:lint.files>',
-			tasks: 'lint'
+			tasks: 'lint qunit'
 		},
 		jshint: {
 			options: {
