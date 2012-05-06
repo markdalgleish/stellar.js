@@ -41,14 +41,13 @@ module.exports = function(grunt) {
 			options: {
 				curly: false,
 				eqeqeq: true,
-				immed: false,
+				immed: true,
 				latedef: true,
 				newcap: true,
 				noarg: true,
 				sub: true,
 				undef: true,
 				boss: true,
-				eqnull: true,
 				browser: true
 			},
 			globals: {

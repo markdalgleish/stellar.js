@@ -37,7 +37,7 @@
 				}
 
 				return prefix;
-			})()
+			}())
 		};
 
 		module('$.fn.stellar');

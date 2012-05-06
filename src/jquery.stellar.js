@@ -72,7 +72,7 @@
 			}
 
 			return prefix;
-		})(),
+		}()),
 
 		setTransform = function($elem, val, dimension /* 'X' or 'Y' */) {
 			var currentTransform = $elem.css(vendorPrefix + 'transform');
@@ -547,7 +547,7 @@
 						function(callback, element){
 							window.setTimeout(callback, 1000 / 60);
 						};
-				})();
+				}());
 
 			this._animationLoop = function(){
 				requestAnimFrame(self._animationLoop);
@@ -589,4 +589,4 @@
 
 	//Expose the plugin class so it can be modified
 	window.Stellar = Plugin;
-})(jQuery, window, document);
+}(jQuery, window, document));
