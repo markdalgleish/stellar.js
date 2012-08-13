@@ -301,10 +301,12 @@
 					startingOffsetTop: offsetTop,
 					parentOffsetLeft: parentOffsetLeft,
 					parentOffsetTop: parentOffsetTop,
+/* MOD */
 					stellarRatio: $this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1,
 					stellarRatio_init: $this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1,
 					stellarRatio_limitpos: -1,
 					stellarLimit: $this.data('stellar-limit') !== undefined ? $this.data('stellar-limit') : false,
+/* END MOD */
 					width: $this.outerWidth(true),
 					height: $this.outerHeight(true),
 					isHidden: false
@@ -473,6 +475,7 @@
 				newPositionTop,
 				newOffsetLeft,
 				newOffsetTop,
+/* MOD */
 				differenceToLimit,
 				i;
 
@@ -501,6 +504,7 @@
 					newPositionTop = (scrollTop + particle.verticalOffset + this.viewportOffsetTop + particle.startingPositionTop - particle.startingOffsetTop + particle.parentOffsetTop) * -(particle.stellarRatio + fixedRatioOffset - 1) + particle.startingPositionTop;
 					newOffsetTop = newPositionTop - particle.startingPositionTop + particle.startingOffsetTop;
 
+/* MOD */
 					// when the limitting is set
 					if (particle.stellarLimit) {
 						// calculate if the particle is "at home" and stop it if data-stellar-limit is true
@@ -527,6 +531,7 @@
 //							console.log("particle.startingPositionTop: "+particle.startingPositionTop);
 //							console.log("particle.startingOffsetTop: "+particle.startingOffsetTop);
 //							console.log("————");
+/* END MOD */
 
 					}
 				}
