@@ -20,16 +20,69 @@
 			outline: 1px solid lime;
 		}
 		section {
-			height: 768px;
+			height: 568px;
+			position: relative;
 		}
+
+		section div {
+			font-family: monospace;
+			position: absolute;
+			display: block;
+			border-width: 2px;
+			border-style: solid;
+			padding: 24px;
+		}
+
+		.one {
+			background: Azure;
+			border-color: DarkGray;
+		}
+		.two {
+			background: Gold;
+			border-color: Darkorange;
+		}
+		.three {
+			background: Lavender;
+			border-color: MidnightBlue;
+		}
+		.four {
+			background: SeaShell;
+			border-color: OrangeRed;
+		}
+
+		.t11 { left: 0px; top: 20px; height: 300px; width: 1024px; }
+		.t12 { left: 100px; top: 100px; width: 500px; }
+		.t13 { left: 660px; top: 200px; width: ;}
+
+		.t21 { left: 0px; top: 0px; height: 400px; width: 24px; }
+		.t22 { left: 100px; top: 200px; width: 400px; }
+		.t23 { left: 560px; top: 200px; width: ;}
+		.t24 { left: 700px; top: 200px; width: ;}
+
 	</style>
-	<script src="js/modernizr-2.5.3-custom.50756.min.js"></script>
+	<script src="js/modernizr.min.js"></script>
 </head>
 <body>
 	
 
 	<section>
-		blah
+		<div class="t11 one" data-stellar-ratio="0.5">xx</div>
+		<div class="t12 two" data-stellar-ratio="1">xx</div>
+		<div class="t13 three" data-stellar-ratio="2">xx</div>
+	</section>
+	<section>
+		<div class="t21 one" data-stellar-ratio="2">xx</div>
+		<div class="t22 two" data-stellar-ratio="1">xx</div>
+		<div class="t23 three" data-stellar-ratio="2">xx</div>
+		<div class="t24 four" data-stellar-ratio="6">xx</div>
+	</section>
+	<section>
+		<div class="t21 one" data-stellar-ratio="2">xx</div>
+		<div class="t22 two" data-stellar-ratio="-2">xx</div>
+		<div class="t23 three" data-stellar-ratio="4">xx</div>
+		<div class="t24 four" data-stellar-ratio="-6">xx</div>
+	</section>
+	<section>
 	</section>
 	<section>
 	</section>
@@ -41,11 +94,23 @@
 	<script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
 	<!-- All Javascript should follow here. If you have more than 80kilobyte of code, reference to a separate file like is in js/main.js. -->
 	<script src="js/iscroll.js"></script>
-	<script src="js/jquery.stellar.js"></script>
+	<script src="js/jquery.stellar-mod-ck.js"></script>
 	<script>
 		$(function() {
 			
-			// your javascript & jQuery here
+			// write values into boxes
+			console.log("writing values");
+			$("section div").each(function(index) {
+				var limited = "";
+				if ($(this).attr("data-stellar-limit") === "true") limited = "limit"; else limited = "";
+				$(this).html($(this).attr("class") + " ratio"+$(this).attr("data-stellar-ratio") + " "+limited);
+			});
+
+			console.log("starting stellar");
+			$(window).stellar({
+			  horizontalScrolling: false,
+			  verticalScrolling: true,				
+			});
 
 		});
 	</script>
