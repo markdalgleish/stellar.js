@@ -1,7 +1,7 @@
 /*!
  * Stellar.js v0.3
  * http://markdalgleish.com/projects/stellar.js
- * 
+ *
  * Copyright 2012, Mark Dalgleish
  * This content is released under the MIT license
  * http://markdalgleish.mit-license.org
@@ -303,8 +303,9 @@
 					parentOffsetTop: parentOffsetTop,
 /* MOD */
 					stellarRatio: $this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1,
+					// the _init value is used as a constant because when limited, the stellarRatio changes to 1
 					stellarRatio_init: $this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1,
-					stellarRatio_limitpos: -1,
+					// true or false from data-attrib
 					stellarLimit: $this.data('stellar-limit') !== undefined ? $this.data('stellar-limit') : false,
 /* END MOD */
 					width: $this.outerWidth(true),
@@ -475,8 +476,6 @@
 				newPositionTop,
 				newOffsetLeft,
 				newOffsetTop,
-/* MOD */
-				differenceToLimit,
 				i;
 
 			//First check that the scroll position or container size has changed
@@ -503,37 +502,6 @@
 				if (this.options.verticalScrolling) {
 					newPositionTop = (scrollTop + particle.verticalOffset + this.viewportOffsetTop + particle.startingPositionTop - particle.startingOffsetTop + particle.parentOffsetTop) * -(particle.stellarRatio + fixedRatioOffset - 1) + particle.startingPositionTop;
 					newOffsetTop = newPositionTop - particle.startingPositionTop + particle.startingOffsetTop;
-
-/* MOD */
-					// when the limitting is set
-					if (particle.stellarLimit) {
-						// calculate if the particle is "at home" and stop it if data-stellar-limit is true
-						differenceToLimit = newPositionTop - particle.startingPositionTop;
-						if (particle.stellarRatio <= 0) {
-							if ((differenceToLimit > 0) && (particle.stellarRatio != 1)) {
-								particle.stellarRatio = 1;
-								particle.stellarRatio_limitpos = scrollTop;
-							}
-						} else {
-							// stop element on final position
-							if ((differenceToLimit < 0) && (particle.stellarRatio != 1)) {
-								particle.stellarRatio = 1;
-								particle.stellarRatio_limitpos = scrollTop;
-//								console.log("BOOM! object reached its limit @"+scrollTop);
-//								console.log(particle);
-							}
-							if ((scrollTop < particle.stellarRatio_limitpos) && (particle.stellarRatio === 1)) {
-//								console.log("HOP! relase object with init: "+particle.stellarRatio_init);
-								particle.stellarRatio = particle.stellarRatio_init;
-							}
-						}
-//						console.log("differenceToLimit:"+differenceToLimit);
-//							console.log("particle.startingPositionTop: "+particle.startingPositionTop);
-//							console.log("particle.startingOffsetTop: "+particle.startingOffsetTop);
-//							console.log("————");
-/* END MOD */
-
-					}
 				}
 
 				//Check visibility
@@ -554,6 +522,38 @@
 
 					if (this.options.verticalScrolling) {
 						this._setTop(particle.$element, newPositionTop, particle.startingPositionTop);
+
+/* MOD
+/* ONLY PERFORM WHEN OBJECT IS VISIBLE */
+					// when the limitting is set
+					if (particle.stellarLimit) {
+						// calculate if the particle is "at home" and stop it if data-stellar-limit is true
+						distanceToLimit = newPositionTop - particle.startingPositionTop;
+						// scrollTop is not available in iOS, use another value
+						if (Modernizr.touch) {
+							var scrollPos = Math.round($("#page").position().top * -1);
+							var parentDistanceViewport = particle.$offsetParent.position().top;
+						} else {
+							var scrollPos = scrollTop;
+							var parentDistanceViewport = particle.$offsetParent.position().top - scrollPos;
+						}
+//						console.log(particle.$element.attr("id")+"'s parent offset: "+particle.verticalOffset+" / scrollPos "+scrollPos+" / distance from Viewport: "+parentDistanceViewport);
+
+						// set all elements to stop when the parent reaches the viewport (or the defined offset)
+						if (parentDistanceViewport <= particle.verticalOffset) {
+							if (particle.stellarRatio != 1) {
+								particle.stellarRatio = 1;
+								console.log("@"+scrollTop+"px BOOM! "+ particle.$element.attr("id") +" reached its limit ");
+							}
+						} else {
+							if (particle.stellarRatio === 1) {
+								console.log("@"+scrollTop+"px HOP! "+ particle.$element.attr("id") +" relase with parallax: "+particle.stellarRatio_init);
+								particle.stellarRatio = particle.stellarRatio_init;
+							}
+						}
+					}
+/* END MOD */
+
 					}
 				} else {
 					if (!particle.isHidden) {

@@ -17,11 +17,31 @@
 		abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}blockquote{margin:1em 40px}dfn{font-style:italic}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}ins{background:#ff9;color:#000;text-decoration:none}mark{background:#ff0;color:#000;font-style:italic;font-weight:bold}pre,code,kbd,samp{font-family:monospace,serif;_font-family:'courier new',monospace;font-size:1em}pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word}q{quotes:none}q:before,q:after{content:"";content:none}small{font-size:85%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}ul,ol{margin:1em 0;padding:0 0 0 40px}dd{margin:0 0 0 40px}nav ul,nav ol{list-style:none;list-style-image:none;margin:0;padding:0}img{border:0;-ms-interpolation-mode:bicubic;vertical-align:middle}svg:not(:root){overflow:hidden}figure{margin:0}form{margin:0}fieldset{border:0;margin:0;padding:0}label{cursor:pointer}legend{border:0;*margin-left:-7px;padding:0;white-space:normal}button,input,select,textarea{font-size:100%;margin:0;vertical-align:baseline;*vertical-align:middle}button,input{line-height:normal}button,input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button;*overflow:visible}button[disabled],input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0;*width:13px;*height:13px}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-decoration,input[type="search"]::-webkit-search-cancel-button{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top;resize:vertical}input:invalid,textarea:invalid{background-color:#f0dddd}table{border-collapse:collapse;border-spacing:0}td{vertical-align:top}.invisible{visibility:hidden}.clearfix:before,.clearfix:after{content:"";display:table}.clearfix:after{clear:both}.clearfix{*zoom:1}
 		/* normalize finished, your css below */
 		* {
-			outline: 1px solid lime;
+			outline: 0px solid lime;
 		}
+
+		#debug_position {
+		  position: fixed;
+		  top: 105px;
+		  left: 20px;
+		  z-index: 1000;
+		  color: silver;
+		}
+
+		#container {
+			outline: 4px dashed pink;
+			width: 1024px;
+		}
+
+		html.touch #container {
+			height: 600px;
+			overflow: hidden;			
+		}
+
 		section {
 			height: 568px;
 			position: relative;
+			border-top: 2px dashed lime;
 		}
 
 		section div {
@@ -50,43 +70,59 @@
 			border-color: OrangeRed;
 		}
 
-		.t11 { left: 0px; top: 20px; height: 300px; width: 1024px; }
+		.t11 { left: 0px; margin-top: 20px; height: 300px; width: 924px; }
 		.t12 { left: 100px; top: 100px; width: 500px; }
 		.t13 { left: 660px; top: 200px; width: ;}
 
 		.t21 { left: 0px; top: 0px; height: 400px; width: 24px; }
 		.t22 { left: 100px; top: 200px; width: 400px; }
-		.t23 { left: 560px; top: 200px; width: ;}
-		.t24 { left: 700px; top: 200px; width: ;}
+		.t23 { left: 560px; top: 200px; }
+		.t24 { left: 700px; top: 200px; }
+
+		.t31 { left: 0px; top: 0px; height: 400px; width: 24px; }
+		.t32 { left: 100px; top: 200px; width: 400px; }
+		.t33 { left: 560px; top: 210px; }
+		.t34 { left: 700px; top: 220px; }
 
 	</style>
 	<script src="js/modernizr.min.js"></script>
 </head>
 <body>
-	
+<div id="debug_position"><span id="pixels">-</span>px</div>
+
+<div id="container">
+<div id="page">
 
 	<section>
-		<div class="t11 one" data-stellar-ratio="0.5">xx</div>
-		<div class="t12 two" data-stellar-ratio="1">xx</div>
-		<div class="t13 three" data-stellar-ratio="2">xx</div>
+		<div id="11" class="t11 one" data-stellar-ratio="0.5">xx</div>
+		<div id="12" class="t12 two" data-stellar-ratio="1">xx</div>
+		<div id="13" class="t13 three" data-stellar-ratio="2">xx</div>
+	</section>
+	<section data-stellar-offset-parent="true" data-stellar-vertical-offset="50">
+		<div id="21" class="t21 one" data-stellar-ratio="2">xx</div>
+		<div id="22" class="t22 two" data-stellar-ratio="1">xx</div>
+		<div id="23" class="t23 three" data-stellar-ratio="2">xx</div>
+		<div id="24" class="t24 four" data-stellar-ratio="6">xx</div>
+	</section>
+	<section data-stellar-offset-parent="true">
+		<div id="31" class="t31 one" data-stellar-ratio="1">xx</div>
+		<div id="32" class="t32 two" data-stellar-ratio="2.75" data-stellar-limit="true">xx</div>
+		<div id="33" class="t33 three" data-stellar-ratio="1.25" data-stellar-limit="true">xx</div>
+		<div id="34" class="t34 four" data-stellar-ratio="-0.5" data-stellar-limit="true">xx</div>
 	</section>
 	<section>
-		<div class="t21 one" data-stellar-ratio="2">xx</div>
-		<div class="t22 two" data-stellar-ratio="1">xx</div>
-		<div class="t23 three" data-stellar-ratio="2">xx</div>
-		<div class="t24 four" data-stellar-ratio="6">xx</div>
-	</section>
-	<section>
-		<div class="t21 one" data-stellar-ratio="2">xx</div>
-		<div class="t22 two" data-stellar-ratio="-2">xx</div>
-		<div class="t23 three" data-stellar-ratio="4">xx</div>
-		<div class="t24 four" data-stellar-ratio="-6">xx</div>
+		<div id="41" class="t31 one" data-stellar-ratio="2">xx</div>
+		<div id="42" class="t32 two" data-stellar-ratio="-2" data-stellar-limit="true">xx</div>
+		<div id="43" class="t33 three" data-stellar-ratio="4" data-stellar-limit="true">xx</div>
+		<div id="44" class="t34 four" data-stellar-ratio="-6" data-stellar-limit="true">xx</div>
 	</section>
 	<section>
 	</section>
 	<section>
 	</section>
 
+</div>
+</div>
 
 	
 	<!-- If you are not using jQuery remove the following two lines of code -->
@@ -94,23 +130,59 @@
 	<script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
 	<!-- All Javascript should follow here. If you have more than 80kilobyte of code, reference to a separate file like is in js/main.js. -->
 	<script src="js/iscroll.js"></script>
-	<script src="js/jquery.stellar-mod-ck.js"></script>
+	<script src="js/jquery.stellar-mod.js"></script>
 	<script>
-		$(function() {
+		// force iOS simulation
+//		Modernizr.touch = true;
+		$(window).bind("scroll", function(){
+		     $('#pixels').html($(window).scrollTop());
+		});
+
+		function debug() {
 			
+		}
+
+		function loaded() {
+			if (Modernizr.touch) {
+				// TOUCH
+				console.log("INIT iScroll");
+				myScroll = new iScroll('container', {
+//					snap: 'section',
+					momentum: true
+				});
+			}
+		}
+		document.addEventListener('DOMContentLoaded', loaded, false);
+
+
+		$(function() {
+		
 			// write values into boxes
 			console.log("writing values");
 			$("section div").each(function(index) {
 				var limited = "";
 				if ($(this).attr("data-stellar-limit") === "true") limited = "limit"; else limited = "";
-				$(this).html($(this).attr("class") + " ratio"+$(this).attr("data-stellar-ratio") + " "+limited);
+				$(this).html($(this).attr("id") + " ratio"+$(this).attr("data-stellar-ratio") + " "+limited);
 			});
 
-			console.log("starting stellar");
-			$(window).stellar({
-			  horizontalScrolling: false,
-			  verticalScrolling: true,				
-			});
+			if (Modernizr.touch) {
+
+				console.log("starting stellar on TOUCH");
+				$("#page").stellar({
+				  horizontalScrolling: false,
+				  verticalScrolling: true,	
+				  scrollProperty: 'transform',			
+				});
+
+			} else {
+
+				console.log("starting stellar on DESKTOP MODE");
+				$(window).stellar({
+				  horizontalScrolling: false,
+				  verticalScrolling: true,				
+				});
+
+			}
 
 		});
 	</script>

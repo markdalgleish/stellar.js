@@ -1,18 +1,3 @@
-/*!
- * Stellar.js v0.3
- * http://markdalgleish.com/projects/stellar.js
- * 
- * Copyright 2012, Mark Dalgleish
- * This content is released under the MIT license
- * http://markdalgleish.mit-license.org
- *
- *
- * FORKED BY
- * Johannes Henseler
- * changes:
- * — added limiting to fix elements on final position (data-stellar-limit="true")
- */
-
 ;(function($, window, document, undefined){
 
 	var pluginName = 'stellar',
@@ -302,9 +287,6 @@
 					parentOffsetLeft: parentOffsetLeft,
 					parentOffsetTop: parentOffsetTop,
 					stellarRatio: $this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1,
-					stellarRatio_init: $this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1,
-					stellarRatio_limitpos: -1,
-					stellarLimit: $this.data('stellar-limit') !== undefined ? $this.data('stellar-limit') : false,
 					width: $this.outerWidth(true),
 					height: $this.outerHeight(true),
 					isHidden: false
@@ -473,7 +455,6 @@
 				newPositionTop,
 				newOffsetLeft,
 				newOffsetTop,
-				differenceToLimit,
 				i;
 
 			//First check that the scroll position or container size has changed
@@ -500,35 +481,6 @@
 				if (this.options.verticalScrolling) {
 					newPositionTop = (scrollTop + particle.verticalOffset + this.viewportOffsetTop + particle.startingPositionTop - particle.startingOffsetTop + particle.parentOffsetTop) * -(particle.stellarRatio + fixedRatioOffset - 1) + particle.startingPositionTop;
 					newOffsetTop = newPositionTop - particle.startingPositionTop + particle.startingOffsetTop;
-
-					// when the limitting is set
-					if (particle.stellarLimit) {
-						// calculate if the particle is "at home" and stop it if data-stellar-limit is true
-						differenceToLimit = newPositionTop - particle.startingPositionTop;
-						if (particle.stellarRatio <= 0) {
-							if ((differenceToLimit > 0) && (particle.stellarRatio != 1)) {
-								particle.stellarRatio = 1;
-								particle.stellarRatio_limitpos = scrollTop;
-							}
-						} else {
-							// stop element on final position
-							if ((differenceToLimit < 0) && (particle.stellarRatio != 1)) {
-								particle.stellarRatio = 1;
-								particle.stellarRatio_limitpos = scrollTop;
-//								console.log("BOOM! object reached its limit @"+scrollTop);
-//								console.log(particle);
-							}
-							if ((scrollTop < particle.stellarRatio_limitpos) && (particle.stellarRatio === 1)) {
-//								console.log("HOP! relase object with init: "+particle.stellarRatio_init);
-								particle.stellarRatio = particle.stellarRatio_init;
-							}
-						}
-//						console.log("differenceToLimit:"+differenceToLimit);
-//							console.log("particle.startingPositionTop: "+particle.startingPositionTop);
-//							console.log("particle.startingOffsetTop: "+particle.startingOffsetTop);
-//							console.log("————");
-
-					}
 				}
 
 				//Check visibility
