@@ -1,5 +1,5 @@
 /*!
- * Stellar.js v0.3
+ * Stellar.js v0.3.1
  * http://markdalgleish.com/projects/stellar.js
  * 
  * Copyright 2012, Mark Dalgleish
@@ -533,13 +533,14 @@
 		_startViewportDetectionLoop: function() {
 			var self = this,
 				detect = function() {
-					var viewportOffsets = self.$viewportElement.offset();
+					var viewportOffsets = self.$viewportElement.offset(),
+						hasOffsets = viewportOffsets !== null && viewportOffsets !== undefined;
 
 					self.viewportWidth = self.$viewportElement.width();
 					self.viewportHeight = self.$viewportElement.height();
 
-					self.viewportOffsetTop = viewportOffsets !== null ? viewportOffsets.top : 0;
-					self.viewportOffsetLeft = viewportOffsets !== null ? viewportOffsets.left : 0;
+					self.viewportOffsetTop = hasOffsets ? viewportOffsets.top : 0;
+					self.viewportOffsetLeft = hasOffsets ? viewportOffsets.left : 0;
 				};
 
 			detect();
