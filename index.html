@@ -29,7 +29,7 @@
 		}
 
 		#container {
-			outline: 4px dashed pink;
+			outline: 1px dashed pink;
 			width: 1024px;
 		}
 
@@ -41,7 +41,7 @@
 		section {
 			height: 568px;
 			position: relative;
-			border-top: 2px dashed lime;
+			border-top: 0px dashed lime;
 		}
 
 		section div {
@@ -81,8 +81,8 @@
 
 		.t31 { left: 0px; top: 0px; height: 400px; width: 24px; }
 		.t32 { left: 100px; top: 200px; width: 400px; height: 30px; }
-		.t33 { left: 560px; top: 210px; height: 30px; }
-		.t34 { left: 700px; top: 220px; height: 30px; }
+		.t33 { left: 560px; top: 200px; height: 30px; }
+		.t34 { left: 700px; top: 200px; height: 30px; }
 
 	</style>
 	<script src="js/modernizr.min.js"></script>
@@ -98,7 +98,7 @@
 		<div id="12" class="t12 two" data-stellar-ratio="1">xx</div>
 		<div id="13" class="t13 three" data-stellar-ratio="2">xx</div>
 	</section>
-	<section data-stellar-offset-parent="true" data-stellar-vertical-offset="50">
+	<section data-stellar-offset-parent="true">
 		<div id="21" class="t21 one" data-stellar-ratio="2">xx</div>
 		<div id="22" class="t22 two" data-stellar-ratio="1">xx</div>
 		<div id="23" class="t23 three" data-stellar-ratio="2">xx</div>
@@ -108,9 +108,9 @@
 		<div id="31" class="t31 one" data-stellar-ratio="1">xx</div>
 		<div id="32" class="t32 two" data-stellar-ratio="2.75" data-stellar-limit="true">xx</div>
 		<div id="33" class="t33 three" data-stellar-ratio="1.25" data-stellar-limit="true">xx</div>
-		<div id="34" class="t34 four" data-stellar-ratio="-0.5" data-stellar-limit="true">xx</div>
+		<div id="34" class="t34 four" data-stellar-ratio="0.5" data-stellar-limit="true">xx</div>
 	</section>
-	<section  data-stellar-offset-parent="true" data-stellar-vertical-offset="50">
+	<section  data-stellar-offset-parent="true">
 		<div id="41" class="t31 one" data-stellar-ratio="2">xx</div>
 		<div id="42" class="t32 two" data-stellar-ratio="-2" data-stellar-limit="true">xx</div>
 		<div id="43" class="t33 three" data-stellar-ratio="4" data-stellar-limit="true">xx</div>
@@ -147,7 +147,7 @@
 				// TOUCH
 				console.log("INIT iScroll");
 				myScroll = new iScroll('container', {
-//					snap: 'section',
+					snap: 'section',
 					momentum: true
 				});
 			}
