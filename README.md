@@ -1,5 +1,7 @@
 # [Stellar.js](http://markdalgleish.com/projects/stellar.js/) [![endorse](http://api.coderwall.com/markdalgleish/endorsecount.png)](http://coderwall.com/markdalgleish)
 
+### Parallax scrolling made easy
+
 Full guide and demonstrations available at the [official Stellar.js project page](http://markdalgleish.com/projects/stellar.js/).
 
 ## Getting Started
