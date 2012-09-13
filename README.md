@@ -223,6 +223,7 @@ $.stellar({
 ## Sites Using Stellar.js
 
 * [Magic City](http://mc.starz.com)
+* [Ashford University](http://bright.ashford.edu)
 * [François Hollande](http://www.parti-socialiste.fr/latimelineduchangement)
 * [WS Interactive](http://www.ws-interactive.fr/methode)
 * [360 Strategy Group](http://360strategygroup.com)
