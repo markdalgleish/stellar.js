@@ -220,6 +220,14 @@ $.stellar({
 });
 ```
 
+## Package Management
+
+If your project is using [Bower](http://twitter.github.com/bower/), you can install Stellar.js using the following command:
+
+``` bash
+$ bower install jquery.stellar
+```
+
 ## Sites Using Stellar.js
 
 * [Magic City](http://mc.starz.com)
