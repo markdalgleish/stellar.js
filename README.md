@@ -222,7 +222,15 @@ $.stellar({
 
 ## Package Management
 
-If your project is using [Bower](http://twitter.github.com/bower/), you can install Stellar.js using the following command:
+Stellar.js can be installed with the following tools.
+
+### [Yeoman](http://yeoman.io/)
+
+``` bash
+$ yeoman install jquery.stellar
+```
+
+### [Bower](http://twitter.github.com/bower/)
 
 ``` bash
 $ bower install jquery.stellar
