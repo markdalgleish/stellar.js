@@ -243,6 +243,7 @@ $ bower install jquery.stellar
 * [Ashford University](http://bright.ashford.edu)
 * [François Hollande](http://www.parti-socialiste.fr/latimelineduchangement)
 * [WS Interactive](http://www.ws-interactive.fr/methode)
+* [Carnival of Courage](http://www.carnivalofcourage.com.au)
 * [360 Strategy Group](http://360strategygroup.com)
 
 I'm sure there are heaps more. [Let me know if you'd like me to feature your site here.](http://twitter.com/markdalgleish)
