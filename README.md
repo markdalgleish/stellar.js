@@ -240,6 +240,7 @@ $ bower install jquery.stellar
 
 * [Magic City](http://mc.starz.com)
 * [National Geographic - Alien Deep Interactive](http://channel.nationalgeographic.com/channel/alien-deep/interactives/alien-deep-interactive/)
+* [IT Support London](http://www.itsupportlondon.com/)
 * [Ashford University](http://bright.ashford.edu)
 * [François Hollande](http://www.parti-socialiste.fr/latimelineduchangement)
 * [WS Interactive](http://www.ws-interactive.fr/methode)
