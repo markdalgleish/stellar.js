@@ -1,5 +1,5 @@
 /*!
- * Stellar.js v0.3.1
+ * Stellar.js v0.4.0
  * http://markdalgleish.com/projects/stellar.js
  * 
  * Copyright 2012, Mark Dalgleish
@@ -81,6 +81,34 @@
 			}
 
 			return prefix;
+		}()),
+
+		supportsBackgroundPositionXY = document.createElement('div').style.backgroundPositionX !== undefined,
+
+		setBackgroundPosition = (function() {
+			return supportsBackgroundPositionXY ?
+				function($elem, x, y) {
+					$elem.css({
+						'background-position-x': x,
+						'background-position-y': y
+					});
+				} :
+				function($elem, x, y) {
+					$elem.css('background-position', x + ' ' + y);
+				};
+		}()),
+
+		getBackgroundPosition = (function() {
+			return supportsBackgroundPositionXY ?
+				function($elem) {
+					return [
+						$elem[0].style.backgroundPositionX,
+						$elem[0].style.backgroundPositionY
+					];
+				} :
+				function($elem) {
+					return $elem.css('background-position').split(' ');
+				};
 		}()),
 
 		setTransform = function($elem, val, dimension /* 'X' or 'Y' */) {
@@ -320,7 +348,7 @@
 
 			$backgroundElements.each(function(){
 				var $this = $(this),
-					backgroundPosition = $this.css('background-position').split(' '),
+					backgroundPosition = getBackgroundPosition($this),
 					horizontalOffset,
 					verticalOffset,
 					positionLeft,
@@ -347,7 +375,7 @@
 					$this.data('stellar-backgroundStartingLeft', backgroundPosition[0]);
 					$this.data('stellar-backgroundStartingTop', backgroundPosition[1]);
 				} else {
-					$this.css('background-position', $this.data('stellar-backgroundStartingLeft') + ' ' + $this.data('stellar-backgroundStartingTop'));
+					setBackgroundPosition($this, $this.data('stellar-backgroundStartingLeft'), $this.data('stellar-backgroundStartingTop'));
 				}
 
 				// Catch-all for margin top/left properties (these evaluate to 'auto' in IE7 and IE8)
@@ -419,7 +447,7 @@
 
 			for (i = this.backgrounds.length - 1; i >= 0; i--) {
 				background = this.backgrounds[i];
-				background.$element.css('background-position', background.startingValueLeft + ' ' + background.startingValueTop);
+				setBackgroundPosition(background.$element, background.startingValueLeft, background.startingValueTop);
 			}
 
 			this._animationLoop = $.noop;
@@ -527,7 +555,7 @@
 				bgLeft = this.options.horizontalScrolling ? (scrollLeft + background.horizontalOffset - this.viewportOffsetLeft - background.startingOffsetLeft + background.parentOffsetLeft - background.startingBackgroundPositionLeft) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueLeft;
 				bgTop = this.options.verticalScrolling ? (scrollTop + background.verticalOffset - this.viewportOffsetTop - background.startingOffsetTop + background.parentOffsetTop - background.startingBackgroundPositionTop) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueTop;
 
-				background.$element.css('background-position', bgLeft + ' ' + bgTop);
+				setBackgroundPosition(background.$element, bgLeft, bgTop);
 			}
 		},
 		_startViewportDetectionLoop: function() {
