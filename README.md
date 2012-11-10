@@ -6,6 +6,10 @@
 
 Full guide and demonstrations available at the [official Stellar.js project page](http://markdalgleish.com/projects/stellar.js/).
 
+## Installation
+
+Download the [development](https://raw.github.com/markdalgleish/stellar.js/master/jquery.stellar.js) or [production](https://raw.github.com/markdalgleish/stellar.js/master/jquery.stellar.min.js) version, or use a [package manager](package-managers).
+
 ## Getting Started
 
 Stellar.js is a jQuery plugin that provides parallax scrolling effects to any scrolling element. The first step is to run `.stellar()` against the element:
@@ -222,7 +226,7 @@ $.stellar({
 });
 ```
 
-## Package Management
+## Package Managers
 
 Stellar.js can be installed with the following tools.
 
