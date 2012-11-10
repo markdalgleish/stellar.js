@@ -241,10 +241,10 @@ $ bower install jquery.stellar
 ## Sites Using Stellar.js
 
 * [Magic City](http://mc.starz.com)
-* [National Geographic - Alien Deep Interactive](http://channel.nationalgeographic.com/channel/alien-deep/interactives/alien-deep-interactive/)
-* [IT Support London](http://www.itsupportlondon.com/)
-* [Ashford University](http://bright.ashford.edu)
+* [National Geographic - Alien Deep Interactive](http://channel.nationalgeographic.com/channel/alien-deep/interactives/alien-deep-interactive)
 * [François Hollande](http://www.parti-socialiste.fr/latimelineduchangement)
+* [IT Support London](http://www.itsupportlondon.com)
+* [Ashford University](http://bright.ashford.edu)
 * [WS Interactive](http://www.ws-interactive.fr/methode)
 * [Carnival of Courage](http://www.carnivalofcourage.com.au)
 * [Ian Poulter](http://www.ianpoulter.com)
