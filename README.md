@@ -29,6 +29,10 @@ $.stellar();
 
 This will look for any parallax backgrounds or elements within the specified element and reposition them when the element scrolls.
 
+## Mobile Support
+
+Support on mobile devices requires a touch scrolling library, and a slightly tweaked configuration. For a full walkthrough on how to implement this correctly, read my blog post ["Mobile Parallax with Stellar.js"](http://markdalgleish.com/2012/10/mobile-parallax-with-stellar-js).
+
 ## Parallax Elements
 
 If you want elements to scroll at a different speed, add the following attribute to any element with a CSS position of absolute, relative or fixed:
