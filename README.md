@@ -255,6 +255,7 @@ $ bower install jquery.stellar
 * [IT Support London](http://www.itsupportlondon.com)
 * [Ashford University](http://bright.ashford.edu)
 * [WS Interactive](http://www.ws-interactive.fr/methode)
+* [Moire Mag - Untitled](http://www.moiremag.net/untitled)
 * [Carnival of Courage](http://www.carnivalofcourage.com.au)
 * [Ian Poulter](http://www.ianpoulter.com)
 * [360 Strategy Group](http://360strategygroup.com)
