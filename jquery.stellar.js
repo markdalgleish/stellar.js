@@ -2,7 +2,7 @@
  * Stellar.js v0.4.0
  * http://markdalgleish.com/projects/stellar.js
  * 
- * Copyright 2012, Mark Dalgleish
+ * Copyright 2013, Mark Dalgleish
  * This content is released under the MIT license
  * http://markdalgleish.mit-license.org
  */
@@ -17,10 +17,10 @@
 			verticalScrolling: true,
 			horizontalOffset: 0,
 			verticalOffset: 0,
+			responsive: false,
 			parallaxBackgrounds: true,
 			parallaxElements: true,
 			hideDistantElements: true,
-			viewportDetectionInterval: 10000,
 			hideElement: function($elem) { $elem.hide(); },
 			showElement: function($elem) { $elem.show(); }
 		},
@@ -165,10 +165,11 @@
 			this._defineElements();
 			this._defineGetters();
 			this._defineSetters();
+			this._handleWindowLoadAndResize();
 
-			this.refresh();
+			this._detectViewport();
+			this.refresh({ firstLoad: true });
 
-			this._startViewportDetectionLoop();
 			this._startAnimationLoop();
 		},
 		_defineElements: function() {
@@ -207,7 +208,25 @@
 				positionProperty[self.options.positionProperty].setTop($elem, top, startingTop);
 			};
 		},
-		refresh: function() {
+		_handleWindowLoadAndResize: function() {
+			var self = this,
+				$window = $(window);
+
+			if (self.options.responsive) {
+				$window.bind('load.' + this.name, function() {
+					self.refresh();
+				});
+			}
+
+			$window.bind('resize.' + this.name, function() {
+				self._detectViewport();
+
+				if (self.options.responsive) {
+					self.refresh();
+				}
+			});
+		},
+		refresh: function(options) {
 			var self = this,
 				oldLeft = self._getScrollLeft(),
 				oldTop = self._getScrollTop();
@@ -220,7 +239,7 @@
 			this._findBackgrounds();
 
 			// Fix for WebKit background rendering bug
-			if (navigator.userAgent.indexOf('WebKit') > 0) {
+			if (options && options.firstLoad && /WebKit/.test(navigator.userAgent)) {
 				$(window).load(function(){
 					var oldLeft = self._getScrollLeft(),
 						oldTop = self._getScrollTop();
@@ -235,6 +254,16 @@
 
 			self._setScrollLeft(oldLeft);
 			self._setScrollTop(oldTop);
+		},
+		_detectViewport: function() {
+			var viewportOffsets = this.$viewportElement.offset(),
+				hasOffsets = viewportOffsets !== null && viewportOffsets !== undefined;
+
+			this.viewportWidth = this.$viewportElement.width();
+			this.viewportHeight = this.$viewportElement.height();
+
+			this.viewportOffsetTop = hasOffsets ? viewportOffsets.top : 0;
+			this.viewportOffsetLeft = hasOffsets ? viewportOffsets.left : 0;
 		},
 		_findParticles: function(){
 			var self = this,
@@ -456,16 +485,18 @@
 			}
 
 			this._animationLoop = $.noop;
-			clearInterval(this._viewportDetectionInterval);
+
+			$(window).unbind('load.' + this.name).unbind('resize.' + this.name);
 		},
 		_setOffsets: function() {
-			var self = this;
+			var self = this,
+				$window = $(window);
 
-			$(window).unbind('resize.horizontal-' + this.name).unbind('resize.vertical-' + this.name);
+			$window.unbind('resize.horizontal-' + this.name).unbind('resize.vertical-' + this.name);
 
 			if (typeof this.options.horizontalOffset === 'function') {
 				this.horizontalOffset = this.options.horizontalOffset();
-				$(window).bind('resize.horizontal-' + this.name, function() {
+				$window.bind('resize.horizontal-' + this.name, function() {
 					self.horizontalOffset = self.options.horizontalOffset();
 				});
 			} else {
@@ -474,7 +505,7 @@
 
 			if (typeof this.options.verticalOffset === 'function') {
 				this.verticalOffset = this.options.verticalOffset();
-				$(window).bind('resize.vertical-' + this.name, function() {
+				$window.bind('resize.vertical-' + this.name, function() {
 					self.verticalOffset = self.options.verticalOffset();
 				});
 			} else {
@@ -562,22 +593,6 @@
 
 				setBackgroundPosition(background.$element, bgLeft, bgTop);
 			}
-		},
-		_startViewportDetectionLoop: function() {
-			var self = this,
-				detect = function() {
-					var viewportOffsets = self.$viewportElement.offset(),
-						hasOffsets = viewportOffsets !== null && viewportOffsets !== undefined;
-
-					self.viewportWidth = self.$viewportElement.width();
-					self.viewportHeight = self.$viewportElement.height();
-
-					self.viewportOffsetTop = hasOffsets ? viewportOffsets.top : 0;
-					self.viewportOffsetLeft = hasOffsets ? viewportOffsets.left : 0;
-				};
-
-			detect();
-			this._viewportDetectionInterval = setInterval(detect, this.options.viewportDetectionInterval);
 		},
 		_startAnimationLoop: function() {
 			var self = this,

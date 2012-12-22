@@ -692,5 +692,47 @@
 				start();
 			}, 20);
 		});
+		
+		module("'responsive' option");
+
+		test('refreshes instance on window resize', 1, function() {
+			$(window).stellar({
+				responsive: true
+			});
+
+			var itRefreshed = false,
+				oldRefresh = window.Stellar.prototype.refresh;
+
+			window.Stellar.prototype.refresh = function() {
+				itRefreshed = true;
+			};
+
+			$(window).resize();
+			
+			strictEqual(itRefreshed, true);
+
+			window.Stellar.prototype.refresh = oldRefresh;
+			$(window).stellar('destroy');
+		});
+
+		test('doesnt refresh instance on window resize if responsive is disabled', 1, function() {
+			$(window).stellar({
+				responsive: false
+			});
+
+			var itRefreshed = false,
+				oldRefresh = window.Stellar.prototype.refresh;
+
+			window.Stellar.prototype.refresh = function() {
+				itRefreshed = true;
+			};
+
+			$(window).resize();
+			
+			strictEqual(itRefreshed, false);
+
+			window.Stellar.prototype.refresh = oldRefresh;
+			$(window).stellar('destroy');
+		});
 
 }(jQuery));

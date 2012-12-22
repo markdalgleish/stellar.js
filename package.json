@@ -1,37 +1,44 @@
 {
-	"name": "jquery.stellar",
-	"version": "0.4.0",
-	"title": "Stellar.js",
-	"author": {
-		"name": "Mark Dalgleish",
-		"url": "http://markdalgleish.com"
-	},
-		"repository": {
-			"type": "git",
-			"url": "git://github.com/markdalgleish/stellar.js.git"
-	  },
-	  "bugs": {
-			"url": "https://github.com/markdalgleish/stellar.js/issues"
-	  },
-	"licenses": [{
-		"type": "MIT",
-		"url": "http://markdalgleish.mit-license.org"
-	}],
-	"dependencies": {
-		"jquery": ">=1.4.3"
-	},
-	"description": "Parallax scrolling made easy",
-	"keywords": [
-		"parallax",
-		"scroll",
-		"iOS"
-	],
-	"homepage": "http://markdalgleish.com/projects/stellar.js",
-	"maintainers": [{
-		"name": "Mark Dalgleish",
-		"url": "http://markdalgleish.com"
-	}],
-	"files": [
-		"jquery.stellar.js"
-	]
+  "name": "jquery.stellar",
+  "version": "0.4.0",
+  "title": "Stellar.js",
+  "author": {
+    "name": "Mark Dalgleish",
+    "url": "http://markdalgleish.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/markdalgleish/stellar.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/markdalgleish/stellar.js/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://markdalgleish.mit-license.org"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.4.3"
+  },
+  "description": "Parallax scrolling made easy",
+  "keywords": [
+    "parallax",
+    "scroll",
+    "iOS"
+  ],
+  "homepage": "http://markdalgleish.com/projects/stellar.js",
+  "maintainers": [
+    {
+      "name": "Mark Dalgleish",
+      "url": "http://markdalgleish.com"
+    }
+  ],
+  "files": [
+    "jquery.stellar.js"
+  ],
+  "devDependencies": {
+    "grunt": "~0.3.17"
+  }
 }
