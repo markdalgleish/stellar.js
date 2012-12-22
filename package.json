@@ -38,6 +38,9 @@
   "files": [
     "jquery.stellar.js"
   ],
+  "scripts": {
+    "test": "grunt lint qunit"
+  },
   "devDependencies": {
     "grunt": "~0.3.17"
   }
