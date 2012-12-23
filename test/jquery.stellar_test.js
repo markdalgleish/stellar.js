@@ -24,20 +24,24 @@
 	
 		var helpers = {
 			vendorPrefix: (function() {
-				var ua = navigator.userAgent,
-					prefix = '';
+				var prefixes = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/,
+					style = document.getElementsByTagName('script')[0].style,
+					prefix = '',
+					prop;
 
-				if (/WebKit/.test(ua)) {
-					prefix = '-webkit-';
-				} else if (/Firefox/.test(ua)) {
-					prefix = '-moz-';
-				} else if (window.opera) {
-					prefix = '-o-';
-				} else if (/MSIE/.test(ua)) {
-					prefix = '-ms-';
+				for (prop in style) {
+					if (prefixes.test(prop)) {
+						prefix = prop.match(prefixes)[0];
+						break;
+					}
 				}
 
-				return prefix;
+				if ('WebkitOpacity' in style) { prefix = 'Webkit'; }
+				if ('KhtmlOpacity' in style) { prefix = 'Khtml'; }
+
+				return function(property) {
+					return prefix + (prefix.length > 0 ? property.charAt(0).toUpperCase() + property.slice(1) : property);
+				};
 			}())
 		};
 
@@ -437,7 +441,9 @@
 			var $elem = $('#scroll-property-transform-scroller').stellar('destroy').stellar({
 				hideDistantElements: false,
 				scrollProperty: 'transform'
-			}).css(helpers.vendorPrefix + 'transform', 'translateY(-20px)');
+			});
+
+			$elem[0].style[helpers.vendorPrefix('transform')] = 'translateY(-20px)';
 			
 			setTimeout(function() {
 				strictEqual($('#scroll-property-transform .ratio--1').css('top'), '40px', 'should support negative ratios');
@@ -445,7 +451,7 @@
 				strictEqual($('#scroll-property-transform .ratio-1').css('top'), '0px', 'should support ratios of 1');
 				strictEqual($('#scroll-property-transform .ratio-2').css('top'), '-20px', 'should support ratios greater than 1');
 				
-				$elem.stellar('destroy').css(helpers.vendorPrefix + 'transform', '');
+				$elem.stellar('destroy')[0].style[helpers.vendorPrefix('transform')] = 'none';
 				start();
 			}, 20);
 		});
@@ -454,7 +460,9 @@
 			var $elem = $('#scroll-property-transform-scroller').stellar('destroy').stellar({
 				hideDistantElements: false,
 				scrollProperty: 'transform'
-			}).css(helpers.vendorPrefix + 'transform', 'translateX(-20px)');
+			});
+
+			$elem[0].style[helpers.vendorPrefix('transform')] = 'translateX(-20px)';
 			
 			setTimeout(function() {
 				strictEqual($('#scroll-property-transform .ratio--1').css('left'), '40px', 'should support negative ratios');
@@ -462,7 +470,7 @@
 				strictEqual($('#scroll-property-transform .ratio-1').css('left'), '0px', 'should support ratios of 1');
 				strictEqual($('#scroll-property-transform .ratio-2').css('left'), '-20px', 'should support ratios greater than 1');
 				
-				$elem.stellar('destroy').css(helpers.vendorPrefix + 'transform', '');
+				$elem.stellar('destroy')[0].style[helpers.vendorPrefix('transform')] = 'none';
 				start();
 			}, 20);
 		});
@@ -476,10 +484,10 @@
 			}).scrollTop(20).scrollLeft(0);
 			
 			setTimeout(function() {
-				strictEqual($('#position-absolute .ratio--1').css(helpers.vendorPrefix + 'transform').substr(22,2), '40', 'should support negative ratios');
-				strictEqual($('#position-absolute .ratio-0-5').css(helpers.vendorPrefix + 'transform').substr(22,2), '10', 'should support ratios between 0 and 1');
-				strictEqual($('#position-absolute .ratio-1').css(helpers.vendorPrefix + 'transform').substr(22,1), '0', 'should support ratios of 1');
-				strictEqual($('#position-absolute .ratio-2').css(helpers.vendorPrefix + 'transform').substr(22,3), '-20', 'should support ratios greater than 1');
+				strictEqual(getComputedStyle($('#position-absolute .ratio--1')[0])[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[5], '40', 'should support negative ratios');
+				strictEqual(getComputedStyle($('#position-absolute .ratio-0-5')[0])[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[5], '10', 'should support ratios between 0 and 1');
+				strictEqual(getComputedStyle($('#position-absolute .ratio-1')[0])[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[5], '0', 'should support ratios of 1');
+				strictEqual(getComputedStyle($('#position-absolute .ratio-2')[0])[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[5], '-20', 'should support ratios greater than 1');
 				
 				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
 				start();
@@ -493,10 +501,10 @@
 			}).scrollTop(0).scrollLeft(20);
 			
 			setTimeout(function() {
-				strictEqual($('#position-absolute .ratio--1').css(helpers.vendorPrefix + 'transform').substr(19,2), '40', 'should support negative ratios');
-				strictEqual($('#position-absolute .ratio-0-5').css(helpers.vendorPrefix + 'transform').substr(19,2), '10', 'should support ratios between 0 and 1');
-				strictEqual($('#position-absolute .ratio-1').css(helpers.vendorPrefix + 'transform').substr(19,1), '0', 'should support ratios of 1');
-				strictEqual($('#position-absolute .ratio-2').css(helpers.vendorPrefix + 'transform').substr(19,3), '-20', 'should support ratios greater than 1');
+				strictEqual($('#position-absolute .ratio--1')[0].style[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '40', 'should support negative ratios');
+				strictEqual($('#position-absolute .ratio-0-5')[0].style[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '10', 'should support ratios between 0 and 1');
+				strictEqual($('#position-absolute .ratio-1')[0].style[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '0', 'should support ratios of 1');
+				strictEqual($('#position-absolute .ratio-2')[0].style[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '-20', 'should support ratios greater than 1');
 				
 				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
 				start();
