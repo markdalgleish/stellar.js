@@ -68,15 +68,16 @@
 		},
 
 		vendorPrefix = (function() {
-			var prefix = '';
+			var ua = navigator.userAgent,
+				prefix = '';
 
-			if ($.browser.webkit) {
+			if (/WebKit/.test(ua)) {
 				prefix = '-webkit-';
-			} else if ($.browser.mozilla) {
+			} else if (/Firefox/.test(ua)) {
 				prefix = '-moz-';
-			} else if ($.browser.opera) {
+			} else if (window.opera) {
 				prefix = '-o-';
-			} else if ($.browser.msie) {
+			} else if (/MSIE/.test(ua)) {
 				prefix = '-ms-';
 			}
 
