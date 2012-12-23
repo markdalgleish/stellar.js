@@ -39,10 +39,10 @@
 				setLeft: function($elem, val) { $elem.css('margin-left', val); }
 			},
 			transform: {
-				getTop: function($elem) { return ($elem.css(vendorPrefix + 'transform') !== 'none' ? parseInt($elem.css(vendorPrefix + 'transform').match(/(-?[0-9]+)/g)[5], 10) * -1 : 0); },
+				getTop: function($elem) { return (getComputedStyle($elem[0])[vendorPrefix('transform')] !== 'none' ? parseInt(getComputedStyle($elem[0])[vendorPrefix('transform')].match(/(-?[0-9]+)/g)[5], 10) * -1 : 0); },
 				setTop: function($elem, val) { setTransform($elem, val, 'Y'); },
 
-				getLeft: function($elem) { return ($elem.css(vendorPrefix + 'transform') !== 'none' ? parseInt($elem.css(vendorPrefix + 'transform').match(/(-?[0-9]+)/g)[4], 10) * -1 : 0); },
+				getLeft: function($elem) { return (getComputedStyle($elem[0])[vendorPrefix('transform')] !== 'none' ? parseInt(getComputedStyle($elem[0])[vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], 10) * -1 : 0); },
 				setLeft: function($elem, val) {	setTransform($elem, val, 'X');	}
 			}
 		},
@@ -59,20 +59,24 @@
 		},
 
 		vendorPrefix = (function() {
-			var ua = navigator.userAgent,
-				prefix = '';
+			var prefixes = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/,
+				style = document.getElementsByTagName('script')[0].style,
+				prefix = '',
+				prop;
 
-			if (/WebKit/.test(ua)) {
-				prefix = '-webkit-';
-			} else if (/Firefox/.test(ua)) {
-				prefix = '-moz-';
-			} else if (window.opera) {
-				prefix = '-o-';
-			} else if (/MSIE/.test(ua)) {
-				prefix = '-ms-';
+			for (prop in style) {
+				if (prefixes.test(prop)) {
+					prefix = prop.match(prefixes)[0];
+					break;
+				}
 			}
 
-			return prefix;
+			if ('WebkitOpacity' in style) { prefix = 'Webkit'; }
+			if ('KhtmlOpacity' in style) { prefix = 'Khtml'; }
+
+			return function(property) {
+				return prefix + (prefix.length > 0 ? property.charAt(0).toUpperCase() + property.slice(1) : property);
+			};
 		}()),
 
 		supportsBackgroundPositionXY = document.createElement('div').style.backgroundPositionX !== undefined,
@@ -104,12 +108,12 @@
 		}()),
 
 		setTransform = function($elem, val, dimension /* 'X' or 'Y' */) {
-			var currentTransform = $elem.css(vendorPrefix + 'transform');
+			var currentTransform = getComputedStyle($elem[0])[vendorPrefix('transform')];
 
 			if (currentTransform === 'none') {
-				$elem.css(vendorPrefix + 'transform', 'translate' + dimension + '(' + val + 'px)');
+				$elem[0].style[vendorPrefix('transform')] = 'translate' + dimension + '(' + val + 'px)';
 			} else {
-				$elem.css(vendorPrefix + 'transform', replaceNthOccurence(currentTransform, /(-?[0-9]+[.]?[0-9]*)/g, (dimension === 'X' ? 5 : 6), val));
+				$elem[0].style[vendorPrefix('transform')] = replaceNthOccurence(currentTransform, /(-?[0-9]+[.]?[0-9]*)/g, (dimension === 'X' ? 5 : 6), val);
 			}
 		},
 
