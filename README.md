@@ -31,7 +31,9 @@ This will look for any parallax backgrounds or elements within the specified ele
 
 ## Mobile Support
 
-Support on mobile devices requires a touch scrolling library, and a slightly tweaked configuration. For a full walkthrough on how to implement this correctly, read my blog post ["Mobile Parallax with Stellar.js"](http://markdalgleish.com/2012/10/mobile-parallax-with-stellar-js).
+Support in Mobile WebKit browsers requires a touch scrolling library, and a slightly tweaked configuration. For a full walkthrough on how to implement this correctly, read my blog post ["Mobile Parallax with Stellar.js"](http://markdalgleish.com/2012/10/mobile-parallax-with-stellar-js).
+
+Please note that parallax backgrounds are not recommended in Mobile WebKit, only parallax elements.
 
 ## Parallax Elements
 
