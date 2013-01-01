@@ -170,7 +170,11 @@
 			this._detectViewport();
 			this.refresh({ firstLoad: true });
 
-			this._startAnimationLoop();
+			if (this.options.scrollProperty === 'scroll') {
+				this._handleScrollEvent();
+			} else {
+				this._startAnimationLoop();
+			}
 		},
 		_defineElements: function() {
 			if (this.element === document.body) this.element = window;
@@ -484,6 +488,7 @@
 				setBackgroundPosition(background.$element, background.startingValueLeft, background.startingValueTop);
 			}
 
+			this.$scrollElement.unbind('resize.' + this.name);
 			this._animationLoop = $.noop;
 
 			$(window).unbind('load.' + this.name).unbind('resize.' + this.name);
@@ -593,6 +598,10 @@
 
 				setBackgroundPosition(background.$element, bgLeft, bgTop);
 			}
+		},
+		_handleScrollEvent: function() {
+			this.$scrollElement.bind('scroll.' + this.name, $.proxy(this._repositionElements, this));
+			this._repositionElements();
 		},
 		_startAnimationLoop: function() {
 			var self = this,
