@@ -488,10 +488,10 @@
 			}).scrollTop(0).scrollLeft(20);
 			
 			setTimeout(function() {
-				strictEqual($('#position-absolute .ratio--1')[0].style[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '40', 'should support negative ratios');
-				strictEqual($('#position-absolute .ratio-0-5')[0].style[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '10', 'should support ratios between 0 and 1');
-				strictEqual($('#position-absolute .ratio-1')[0].style[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '0', 'should support ratios of 1');
-				strictEqual($('#position-absolute .ratio-2')[0].style[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '-20', 'should support ratios greater than 1');
+				strictEqual(getComputedStyle($('#position-absolute .ratio--1')[0])[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '40', 'should support negative ratios');
+				strictEqual(getComputedStyle($('#position-absolute .ratio-0-5')[0])[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '10', 'should support ratios between 0 and 1');
+				strictEqual(getComputedStyle($('#position-absolute .ratio-1')[0])[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '0', 'should support ratios of 1');
+				strictEqual(getComputedStyle($('#position-absolute .ratio-2')[0])[helpers.vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], '-20', 'should support ratios greater than 1');
 				
 				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
 				start();

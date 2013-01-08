@@ -62,8 +62,9 @@
 				setLeft: function($elem, left) { $elem.css('left', left); }
 			},
 			transform: {
-				setTop: function($elem, top, startingTop) {	setTransform($elem, top - startingTop, 'Y'); },
-				setLeft: function($elem, left, startingLeft) { setTransform($elem, left - startingLeft, 'X'); }
+				setPosition: function($elem, left, startingLeft, top, startingTop) {
+					$elem[0].style[vendorPrefix('transform')] = 'translate(' + (left - startingLeft) + 'px, ' + (top - startingTop) + 'px)';
+				}
 			}
 		},
 
@@ -205,7 +206,8 @@
 			};
 		},
 		_defineSetters: function() {
-			var self = this;
+			var self = this,
+				positionPropertyAdapter = positionProperty[self.options.positionProperty];
 
 			this._setScrollLeft = function(val) {
 				scrollProperty[self.options.scrollProperty].setLeft(self.$scrollElement, val);
@@ -215,13 +217,16 @@
 				scrollProperty[self.options.scrollProperty].setTop(self.$scrollElement, val);
 			};
 
-			this._setLeft = function($elem, left, startingLeft) {
-				positionProperty[self.options.positionProperty].setLeft($elem, left, startingLeft);
-			};
+			this._setPosition = positionPropertyAdapter.setPosition ||
+				function($elem, left, startingLeft, top, startingTop) {
+					if (self.options.horizontalScrolling) {
+						positionPropertyAdapter.setLeft($elem, left, startingLeft);
+					}
 
-			this._setTop = function($elem, top, startingTop) {
-				positionProperty[self.options.positionProperty].setTop($elem, top, startingTop);
-			};
+					if (self.options.verticalScrolling) {
+						positionPropertyAdapter.setTop($elem, top, startingTop);
+					}
+				};
 		},
 		_handleWindowLoadAndResize: function() {
 			var self = this,
@@ -486,8 +491,7 @@
 				startingPositionLeft = particle.$element.data('stellar-startingLeft');
 				startingPositionTop = particle.$element.data('stellar-startingTop');
 
-				this._setLeft(particle.$element, startingPositionLeft, startingPositionLeft);
-				this._setTop(particle.$element, startingPositionTop, startingPositionTop);
+				this._setPosition(particle.$element, startingPositionLeft, startingPositionLeft, startingPositionTop, startingPositionTop);
 
 				this.options.showElement(particle.$element);
 
@@ -584,13 +588,7 @@
 						particle.isHidden = false;
 					}
 
-					if (this.options.horizontalScrolling) {
-						this._setLeft(particle.$element, newPositionLeft, particle.startingPositionLeft);
-					}
-
-					if (this.options.verticalScrolling) {
-						this._setTop(particle.$element, newPositionTop, particle.startingPositionTop);
-					}
+					this._setPosition(particle.$element, newPositionLeft, particle.startingPositionLeft, newPositionTop, particle.startingPositionTop);
 				} else {
 					if (!particle.isHidden) {
 						this.options.hideElement(particle.$element);
