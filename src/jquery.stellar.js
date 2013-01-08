@@ -54,7 +54,7 @@
 			},
 			transform: {
 				setPosition: function($elem, left, startingLeft, top, startingTop) {
-					$elem[0].style[vendorPrefix('transform')] = 'translate(' + (left - startingLeft) + 'px, ' + (top - startingTop) + 'px)';
+					$elem[0].style[vendorPrefix('transform')] = 'translate(' + ((left - startingLeft) || 0) + 'px, ' + ((top - startingTop) || 0) + 'px)';
 				}
 			}
 		},
