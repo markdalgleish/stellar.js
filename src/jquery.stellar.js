@@ -39,10 +39,10 @@
 				setLeft: function($elem, val) { $elem.css('margin-left', val); }
 			},
 			transform: {
-				getTop: function($elem) { return (getComputedStyle($elem[0])[vendorPrefix('transform')] !== 'none' ? parseInt(getComputedStyle($elem[0])[vendorPrefix('transform')].match(/(-?[0-9]+)/g)[5], 10) * -1 : 0); },
+				getTop: function($elem) { return (getComputedStyle($elem[0])[transform] !== 'none' ? parseInt(getComputedStyle($elem[0])[transform].match(/(-?[0-9]+)/g)[5], 10) * -1 : 0); },
 				setTop: function($elem, val) { setTransform($elem, val, 'Y'); },
 
-				getLeft: function($elem) { return (getComputedStyle($elem[0])[vendorPrefix('transform')] !== 'none' ? parseInt(getComputedStyle($elem[0])[vendorPrefix('transform')].match(/(-?[0-9]+)/g)[4], 10) * -1 : 0); },
+				getLeft: function($elem) { return (getComputedStyle($elem[0])[transform] !== 'none' ? parseInt(getComputedStyle($elem[0])[transform].match(/(-?[0-9]+)/g)[4], 10) * -1 : 0); },
 				setLeft: function($elem, val) {	setTransform($elem, val, 'X');	}
 			}
 		},
@@ -54,7 +54,7 @@
 			},
 			transform: {
 				setPosition: function($elem, left, startingLeft, top, startingTop) {
-					$elem[0].style[vendorPrefix('transform')] = 'translate(' + ((left - startingLeft) || 0) + 'px, ' + ((top - startingTop) || 0) + 'px)';
+					$elem[0].style[transform] = 'translate(' + ((left - startingLeft) || 0) + 'px, ' + ((top - startingTop) || 0) + 'px)';
 				}
 			}
 		},
@@ -79,6 +79,8 @@
 				return prefix + (prefix.length > 0 ? property.charAt(0).toUpperCase() + property.slice(1) : property);
 			};
 		}()),
+
+		transform = vendorPrefix('transform'),
 
 		supportsBackgroundPositionXY = document.createElement('div').style.backgroundPositionX !== undefined,
 
@@ -109,12 +111,12 @@
 		}()),
 
 		setTransform = function($elem, val, dimension /* 'X' or 'Y' */) {
-			var currentTransform = getComputedStyle($elem[0])[vendorPrefix('transform')];
+			var currentTransform = getComputedStyle($elem[0])[transform];
 
 			if (currentTransform === 'none') {
-				$elem[0].style[vendorPrefix('transform')] = 'translate' + dimension + '(' + val + 'px)';
+				$elem[0].style[transform] = 'translate' + dimension + '(' + val + 'px)';
 			} else {
-				$elem[0].style[vendorPrefix('transform')] = replaceNthOccurence(currentTransform, /(-?[0-9]+[.]?[0-9]*)/g, (dimension === 'X' ? 5 : 6), val);
+				$elem[0].style[transform] = replaceNthOccurence(currentTransform, /(-?[0-9]+[.]?[0-9]*)/g, (dimension === 'X' ? 5 : 6), val);
 			}
 		},
 
