@@ -146,7 +146,18 @@
 			parts[indexOfNthMatch] = replace;
 
 			return parts.join('');
-		};
+		},
+
+		requestAnimFrame = (function(){
+			return window.requestAnimationFrame    ||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame    ||
+				window.oRequestAnimationFrame      ||
+				window.msRequestAnimationFrame     ||
+				function(callback, element){
+					window.setTimeout(callback, 1000 / 60);
+				};
+		}());
 
 	function Plugin(element, options) {
 		this.element = element;
@@ -600,21 +611,26 @@
 			}
 		},
 		_handleScrollEvent: function() {
-			this.$scrollElement.bind('scroll.' + this.name, $.proxy(this._repositionElements, this));
-			this._repositionElements();
+			var self = this,
+				ticking = false;
+
+			var update = function() {
+				self._repositionElements();
+				ticking = false;
+			};
+
+			var requestTick = function() {
+				if (!ticking) {
+					requestAnimFrame(update);
+					ticking = true;
+				}
+			};
+			
+			this.$scrollElement.bind('scroll.' + this.name, requestTick);
+			update();
 		},
 		_startAnimationLoop: function() {
-			var self = this,
-				requestAnimFrame = (function(){
-					return window.requestAnimationFrame    ||
-						window.webkitRequestAnimationFrame ||
-						window.mozRequestAnimationFrame    ||
-						window.oRequestAnimationFrame      ||
-						window.msRequestAnimationFrame     ||
-						function(callback, element){
-							window.setTimeout(callback, 1000 / 60);
-						};
-				}());
+			var self = this;
 
 			this._animationLoop = function(){
 				requestAnimFrame(self._animationLoop);
