@@ -39,7 +39,7 @@
     "jquery.stellar.js"
   ],
   "scripts": {
-    "test": "grunt lint qunit"
+    "test": "grunt test"
   },
   "devDependencies": {
     "grunt": "~0.3.17"
