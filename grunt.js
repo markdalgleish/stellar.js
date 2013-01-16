@@ -18,9 +18,14 @@ module.exports = function(grunt) {
 		lint: {
 			files: ['grunt.js', 'test/**/*.js', 'src/**/*.js']
 		},
+		server: {
+			port: 9095
+		},
 		qunit: {
-      files: ['test/**/*.html']
-    },
+			urls: ['1.4.3', '1.9.0', '2.0.0b1'].map(function(version) {
+				return 'http://localhost:<%= server.port %>/test/jquery.stellar.html?jquery=' + version;
+			})
+		},
 		concat: {
 			dist: {
 				src: ['<banner:meta.banner>', '<file_strip_banner:src/<%= pkg.name %>.js>'],
@@ -35,10 +40,11 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			files: '<config:lint.files>',
-			tasks: 'lint qunit'
+			tasks: 'server lint qunit'
 		},
 		jshint: {
 			options: {
+				evil: true,
 				curly: false,
 				eqeqeq: true,
 				immed: true,
@@ -58,6 +64,8 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', 'lint qunit concat min');
+	grunt.registerTask('default', 'server lint qunit concat min');
+
+	grunt.registerTask('test', 'server lint qunit');
 
 };

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Stellar.js Test Suite</title>
   <!-- Load local jQuery, removing access to $ (use jQuery, not $). -->
-  <script src="../libs/jquery/jquery.js"></script>
+  <script src="jquery-loader.js"></script>
   <script>jQuery.noConflict()</script>
   <!-- Load local QUnit (grunt requires v1.0.0 or newer). -->
   <link rel="stylesheet" href="../libs/qunit/qunit.css" media="screen">
@@ -14,7 +14,13 @@
   <script src="../src/jquery.stellar.js"></script>
 </head>
 <body>
-  <h1 id="qunit-header">Stellar.js Test Suite</h1>
+  <h1 id="qunit-header">
+    <a href="?">Stellar.js Test Suite</a> -
+    jQuery: <a href="?jquery=1.4.3">v1.4.3</a> |
+    <a href="?jquery=1.9.0">v1.9.0</a> |
+    <a href="?jquery=2.0.0b1">v2.0.0b1</a> |
+    <a href="?jquery=git">Git</a>
+  </h1>
   <h2 id="qunit-banner"></h2>
   <div id="qunit-testrunner-toolbar"></div>
   <h2 id="qunit-userAgent"></h2>
