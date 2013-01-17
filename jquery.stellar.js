@@ -499,7 +499,7 @@
 				setBackgroundPosition(background.$element, background.startingValueLeft, background.startingValueTop);
 			}
 
-			this.$scrollElement.unbind('resize.' + this.name);
+			this.$scrollElement.unbind('resize.' + this.name).unbind('scroll.' + this.name);
 			this._animationLoop = $.noop;
 
 			$(window).unbind('load.' + this.name).unbind('resize.' + this.name);
@@ -627,7 +627,7 @@
 			};
 			
 			this.$scrollElement.bind('scroll.' + this.name, requestTick);
-			update();
+			requestTick();
 		},
 		_startAnimationLoop: function() {
 			var self = this;
