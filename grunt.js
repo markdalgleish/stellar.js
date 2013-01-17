@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 			files: ['grunt.js', 'test/**/*.js', 'src/**/*.js']
 		},
 		server: {
-			port: 8080
+			port: 8573
 		},
 		qunit: {
 			urls: ['1.4.3', '1.9.0', '2.0.0b1'].map(function(version) {
