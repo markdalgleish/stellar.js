@@ -35,24 +35,21 @@
 			},
 			position: {
 				getTop: function($elem) { return parseInt($elem.css('top'), 10) * -1; },
-				setTop: function($elem, val) { $elem.css('top', val); },
-
-				getLeft: function($elem) { return parseInt($elem.css('left'), 10) * -1; },
-				setLeft: function($elem, val) { $elem.css('left', val); }
+				getLeft: function($elem) { return parseInt($elem.css('left'), 10) * -1; }
 			},
 			margin: {
 				getTop: function($elem) { return parseInt($elem.css('margin-top'), 10) * -1; },
-				setTop: function($elem, val) { $elem.css('margin-top', val); },
-
-				getLeft: function($elem) { return parseInt($elem.css('margin-left'), 10) * -1; },
-				setLeft: function($elem, val) { $elem.css('margin-left', val); }
+				getLeft: function($elem) { return parseInt($elem.css('margin-left'), 10) * -1; }
 			},
 			transform: {
-				getTop: function($elem) { return (getComputedStyle($elem[0])[transform] !== 'none' ? parseInt(getComputedStyle($elem[0])[transform].match(/(-?[0-9]+)/g)[5], 10) * -1 : 0); },
-				setTop: function($elem, val) { setTransform($elem, val, 'Y'); },
-
-				getLeft: function($elem) { return (getComputedStyle($elem[0])[transform] !== 'none' ? parseInt(getComputedStyle($elem[0])[transform].match(/(-?[0-9]+)/g)[4], 10) * -1 : 0); },
-				setLeft: function($elem, val) {	setTransform($elem, val, 'X');	}
+				getTop: function($elem) {
+					var computedTransform = getComputedStyle($elem[0])[transform];
+					return computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[5], 10) * -1 : 0;
+				},
+				getLeft: function($elem) {
+					var computedTransform = getComputedStyle($elem[0])[transform];
+					return computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[4], 10) * -1 : 0;
+				}
 			}
 		},
 
@@ -119,38 +116,6 @@
 				};
 		}()),
 
-		setTransform = function($elem, val, dimension /* 'X' or 'Y' */) {
-			var currentTransform = getComputedStyle($elem[0])[transform];
-
-			if (currentTransform === 'none') {
-				$elem[0].style[transform] = 'translate' + dimension + '(' + val + 'px)';
-			} else {
-				$elem[0].style[transform] = replaceNthOccurence(currentTransform, /(-?[0-9]+[.]?[0-9]*)/g, (dimension === 'X' ? 5 : 6), val);
-			}
-		},
-
-		replaceNthOccurence = function(original, pattern, n, replace) {
-			var parts,
-				tempParts,
-				indexOfNthMatch;
-
-			if (original.search(pattern) === -1) {
-				return original;
-			}
-
-			parts = original.split(pattern);
-
-			indexOfNthMatch = n * 2 - 1;
-
-			if (parts[indexOfNthMatch] === undefined) {
-				return original;
-			}
-
-			parts[indexOfNthMatch] = replace;
-
-			return parts.join('');
-		},
-
 		requestAnimFrame = (function(){
 			return window.requestAnimationFrame    ||
 				window.webkitRequestAnimationFrame ||
@@ -209,15 +174,18 @@
 		},
 		_defineSetters: function() {
 			var self = this,
-				positionPropertyAdapter = positionProperty[self.options.positionProperty];
+				scrollPropertyAdapter = scrollProperty[self.options.scrollProperty],
+				positionPropertyAdapter = positionProperty[self.options.positionProperty],
+				setScrollLeft = scrollPropertyAdapter.setLeft,
+				setScrollTop = scrollPropertyAdapter.setTop;
 
-			this._setScrollLeft = function(val) {
-				scrollProperty[self.options.scrollProperty].setLeft(self.$scrollElement, val);
-			};
+			this._setScrollLeft = typeof setScrollLeft === 'function' ? function(val) {
+				setScrollLeft(self.$scrollElement, val);
+			} : $.noop;
 
-			this._setScrollTop = function(val) {
-				scrollProperty[self.options.scrollProperty].setTop(self.$scrollElement, val);
-			};
+			this._setScrollTop = typeof setScrollTop === 'function' ? function(val) {
+				setScrollTop(self.$scrollElement, val);
+			} : $.noop;
 
 			this._setPosition = positionPropertyAdapter.setPosition ||
 				function($elem, left, startingLeft, top, startingTop) {
@@ -274,8 +242,8 @@
 				});
 			}
 
-			self._setScrollLeft(oldLeft);
-			self._setScrollTop(oldTop);
+			this._setScrollLeft(oldLeft);
+			this._setScrollTop(oldTop);
 		},
 		_detectViewport: function() {
 			var viewportOffsets = this.$viewportElement.offset(),
