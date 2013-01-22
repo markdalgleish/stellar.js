@@ -60,7 +60,7 @@
 			},
 			transform: {
 				setPosition: function($elem, left, startingLeft, top, startingTop) {
-					$elem[0].style[transform] = 'translate3d(' + ((left - startingLeft) || 0) + 'px, ' + ((top - startingTop) || 0) + 'px, 0)';
+					$elem[0].style[transform] = 'translate3d(' + (left - startingLeft) + 'px, ' + (top - startingTop) + 'px, 0)';
 				}
 			}
 		},
@@ -540,10 +540,17 @@
 				if (this.options.horizontalScrolling) {
 					newPositionLeft = (scrollLeft + particle.horizontalOffset + this.viewportOffsetLeft + particle.startingPositionLeft - particle.startingOffsetLeft + particle.parentOffsetLeft) * -(particle.stellarRatio + fixedRatioOffset - 1) + particle.startingPositionLeft;
 					newOffsetLeft = newPositionLeft - particle.startingPositionLeft + particle.startingOffsetLeft;
+				} else {
+					newPositionLeft = particle.startingPositionLeft;
+					newOffsetLeft = particle.startingOffsetLeft;
 				}
+
 				if (this.options.verticalScrolling) {
 					newPositionTop = (scrollTop + particle.verticalOffset + this.viewportOffsetTop + particle.startingPositionTop - particle.startingOffsetTop + particle.parentOffsetTop) * -(particle.stellarRatio + fixedRatioOffset - 1) + particle.startingPositionTop;
 					newOffsetTop = newPositionTop - particle.startingPositionTop + particle.startingOffsetTop;
+				} else {
+					newPositionTop = particle.startingPositionTop;
+					newOffsetTop = particle.startingOffsetTop;
 				}
 
 				//Check visibility

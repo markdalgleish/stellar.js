@@ -537,7 +537,31 @@
 			$(window).stellar({
 				hideDistantElements: false,
 				positionProperty: 'testHorizontal'
-			}).scrollTop(20).scrollLeft(0);
+			}).scrollTop(0).scrollLeft(20);
+			
+			setTimeout(function() {
+				strictEqual($('#scroll-property-transform .ratio--1').css('left'), '4000px', 'should support negative ratios');
+				strictEqual($('#scroll-property-transform .ratio-0-5').css('left'), '1000px', 'should support ratios between 0 and 1');
+				strictEqual($('#scroll-property-transform .ratio-1').css('left'), '0px', 'should support ratios of 1');
+				strictEqual($('#scroll-property-transform .ratio-2').css('left'), '-2000px', 'should support ratios greater than 1');
+				
+				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
+				start();
+			}, 20);
+		});
+		
+		asyncTest('supports positionProperty with a single function', 8, function() {
+			$.stellar.positionProperty.singleFunction = {
+				setPosition: function($element, newLeft, originalLeft, newTop, originalTop) {
+					$element.css('top', newTop * 100);
+					$element.css('left', newLeft * 100);
+				}
+			};
+			
+			$(window).stellar({
+				hideDistantElements: false,
+				positionProperty: 'singleFunction'
+			}).scrollTop(20).scrollLeft(20);
 			
 			setTimeout(function() {
 				strictEqual($('#scroll-property-transform .ratio--1').css('top'), '4000px', 'should support negative ratios');
@@ -545,6 +569,71 @@
 				strictEqual($('#scroll-property-transform .ratio-1').css('top'), '0px', 'should support ratios of 1');
 				strictEqual($('#scroll-property-transform .ratio-2').css('top'), '-2000px', 'should support ratios greater than 1');
 				
+				strictEqual($('#scroll-property-transform .ratio--1').css('left'), '4000px', 'should support negative ratios');
+				strictEqual($('#scroll-property-transform .ratio-0-5').css('left'), '1000px', 'should support ratios between 0 and 1');
+				strictEqual($('#scroll-property-transform .ratio-1').css('left'), '0px', 'should support ratios of 1');
+				strictEqual($('#scroll-property-transform .ratio-2').css('left'), '-2000px', 'should support ratios greater than 1');
+
+				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
+				start();
+			}, 20);
+		});
+
+		asyncTest('supports positionProperty with a single function vertically', 8, function() {
+			$.stellar.positionProperty.singleFunctionVertically = {
+				setPosition: function($element, newLeft, originalLeft, newTop, originalTop) {
+					$element.css('top', newTop);
+					$element.css('left', newLeft);
+				}
+			};
+			
+			$(window).stellar({
+				hideDistantElements: false,
+				positionProperty: 'singleFunctionVertically',
+				horizontalScrolling: false
+			}).scrollTop(20).scrollLeft(20);
+			
+			setTimeout(function() {
+				strictEqual($('#scroll-property-transform .ratio--1').css('top'), '40px', 'should support negative ratios');
+				strictEqual($('#scroll-property-transform .ratio-0-5').css('top'), '10px', 'should support ratios between 0 and 1');
+				strictEqual($('#scroll-property-transform .ratio-1').css('top'), '0px', 'should support ratios of 1');
+				strictEqual($('#scroll-property-transform .ratio-2').css('top'), '-20px', 'should support ratios greater than 1');
+				
+				strictEqual($('#scroll-property-transform .ratio--1').css('left'), '0px', "shouldn't alter 'left' value");
+				strictEqual($('#scroll-property-transform .ratio-0-5').css('left'), '0px', "shouldn't alter 'left' value");
+				strictEqual($('#scroll-property-transform .ratio-1').css('left'), '0px', "shouldn't alter 'left' value");
+				strictEqual($('#scroll-property-transform .ratio-2').css('left'), '0px', "shouldn't alter 'left' value");
+
+				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
+				start();
+			}, 20);
+		});
+
+		asyncTest('supports positionProperty with a single function horizontally', 8, function() {
+			$.stellar.positionProperty.singleFunctionVertically = {
+				setPosition: function($element, newLeft, originalLeft, newTop, originalTop) {
+					$element.css('top', newTop);
+					$element.css('left', newLeft);
+				}
+			};
+			
+			$(window).stellar({
+				hideDistantElements: false,
+				positionProperty: 'singleFunctionVertically',
+				verticalScrolling: false
+			}).scrollTop(20).scrollLeft(20);
+			
+			setTimeout(function() {
+				strictEqual($('#scroll-property-transform .ratio--1').css('top'), '0px', 'should support negative ratios');
+				strictEqual($('#scroll-property-transform .ratio-0-5').css('top'), '0px', 'should support ratios between 0 and 1');
+				strictEqual($('#scroll-property-transform .ratio-1').css('top'), '0px', 'should support ratios of 1');
+				strictEqual($('#scroll-property-transform .ratio-2').css('top'), '0px', 'should support ratios greater than 1');
+				
+				strictEqual($('#scroll-property-transform .ratio--1').css('left'), '40px', "shouldn't alter 'left' value");
+				strictEqual($('#scroll-property-transform .ratio-0-5').css('left'), '10px', "shouldn't alter 'left' value");
+				strictEqual($('#scroll-property-transform .ratio-1').css('left'), '0px', "shouldn't alter 'left' value");
+				strictEqual($('#scroll-property-transform .ratio-2').css('left'), '-20px', "shouldn't alter 'left' value");
+
 				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
 				start();
 			}, 20);
