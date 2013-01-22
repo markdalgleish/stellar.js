@@ -27,36 +27,36 @@
 
 		scrollProperty = {
 			scroll: {
-				getTop: function($elem) { return $elem.scrollTop();	},
-				setTop: function($elem, val) { $elem.scrollTop(val); },
-
 				getLeft: function($elem) { return $elem.scrollLeft(); },
-				setLeft: function($elem, val) { $elem.scrollLeft(val); }
+				setLeft: function($elem, val) { $elem.scrollLeft(val); },
+
+				getTop: function($elem) { return $elem.scrollTop();	},
+				setTop: function($elem, val) { $elem.scrollTop(val); }
 			},
 			position: {
-				getTop: function($elem) { return parseInt($elem.css('top'), 10) * -1; },
-				getLeft: function($elem) { return parseInt($elem.css('left'), 10) * -1; }
+				getLeft: function($elem) { return parseInt($elem.css('left'), 10) * -1; },
+				getTop: function($elem) { return parseInt($elem.css('top'), 10) * -1; }
 			},
 			margin: {
-				getTop: function($elem) { return parseInt($elem.css('margin-top'), 10) * -1; },
-				getLeft: function($elem) { return parseInt($elem.css('margin-left'), 10) * -1; }
+				getLeft: function($elem) { return parseInt($elem.css('margin-left'), 10) * -1; },
+				getTop: function($elem) { return parseInt($elem.css('margin-top'), 10) * -1; }
 			},
 			transform: {
-				getTop: function($elem) {
-					var computedTransform = getComputedStyle($elem[0])[transform];
-					return computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[5], 10) * -1 : 0;
-				},
 				getLeft: function($elem) {
 					var computedTransform = getComputedStyle($elem[0])[transform];
 					return computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[4], 10) * -1 : 0;
+				},
+				getTop: function($elem) {
+					var computedTransform = getComputedStyle($elem[0])[transform];
+					return computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[5], 10) * -1 : 0;
 				}
 			}
 		},
 
 		positionProperty = {
 			position: {
-				setTop: function($elem, top) { $elem.css('top', top); },
-				setLeft: function($elem, left) { $elem.css('left', left); }
+				setLeft: function($elem, left) { $elem.css('left', left); },
+				setTop: function($elem, top) { $elem.css('top', top); }
 			},
 			transform: {
 				setPosition: function($elem, left, startingLeft, top, startingTop) {
