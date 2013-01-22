@@ -6,9 +6,9 @@
 
 Full guide and demonstrations available at the [official Stellar.js project page](http://markdalgleish.com/projects/stellar.js/).
 
-## Installation
+## Download
 
-Download the [development](https://raw.github.com/markdalgleish/stellar.js/master/jquery.stellar.js) or [production](https://raw.github.com/markdalgleish/stellar.js/master/jquery.stellar.min.js) version, or use a [package manager](https://github.com/markdalgleish/stellar.js#package-managers).
+Get the [development](https://raw.github.com/markdalgleish/stellar.js/master/jquery.stellar.js) or [production](https://raw.github.com/markdalgleish/stellar.js/master/jquery.stellar.min.js) version, or use a [package manager](https://github.com/markdalgleish/stellar.js#package-managers).
 
 ## Getting Started
 
