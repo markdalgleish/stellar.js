@@ -21,6 +21,14 @@
   background-attachment: fixed;
 }
 
+#background-vertical-only span {
+  background-position: 100% 0px;
+}
+
+#background-horizontal-only span {
+  background-position: 0px 100%;
+}
+
 .offset-parent {
   position: absolute;
   top: 0;

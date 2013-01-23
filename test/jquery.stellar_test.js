@@ -252,6 +252,38 @@
 			}, 20);
 		});
 		
+		asyncTest('passes background-position-y value through when scrolling is horizontal only', 4, function() {
+			$(window).stellar({
+				verticalScrolling: false
+			}).scrollTop(0).scrollLeft(20);
+			
+			setTimeout(function() {
+				strictEqual($('#background-horizontal-only .ratio--1').css('background-position'), '40px 100%', 'should support negative ratios');
+				strictEqual($('#background-horizontal-only .ratio-0-5').css('background-position'), '10px 100%', 'should support ratios between 0 and 1');
+				strictEqual($('#background-horizontal-only .ratio-1').css('background-position'), '0px 100%', 'should support ratios of 1');
+				strictEqual($('#background-horizontal-only .ratio-2').css('background-position'), '-20px 100%', 'should support ratios greater than 1');
+				
+				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
+				start();
+			}, 20);
+		});
+		
+		asyncTest('passes background-position-x value through when scrolling is vertical only', 4, function() {
+			$(window).stellar({
+				horizontalScrolling: false
+			}).scrollTop(20).scrollLeft(0);
+			
+			setTimeout(function() {
+				strictEqual($('#background-vertical-only .ratio--1').css('background-position'), '100% 40px', 'should support negative ratios');
+				strictEqual($('#background-vertical-only .ratio-0-5').css('background-position'), '100% 10px', 'should support ratios between 0 and 1');
+				strictEqual($('#background-vertical-only .ratio-1').css('background-position'), '100% 0px', 'should support ratios of 1');
+				strictEqual($('#background-vertical-only .ratio-2').css('background-position'), '100% -20px', 'should support ratios greater than 1');
+				
+				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
+				start();
+			}, 20);
+		});
+
 		module("Fixed backgrounds");
 		
 		asyncTest('support vertical ratios correctly', 4, function() {

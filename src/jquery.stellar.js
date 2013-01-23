@@ -79,7 +79,7 @@
 
 		transform = vendorPrefix('transform'),
 
-		supportsBackgroundPositionXY = document.createElement('div').style.backgroundPositionX !== undefined,
+		supportsBackgroundPositionXY = $('<div />').css('background-position-x') !== undefined,
 
 		setBackgroundPosition = (function() {
 			return supportsBackgroundPositionXY ?
@@ -98,8 +98,8 @@
 			return supportsBackgroundPositionXY ?
 				function($elem) {
 					return [
-						$elem[0].style.backgroundPositionX,
-						$elem[0].style.backgroundPositionY
+						$elem.css('background-position-x'),
+						$elem.css('background-position-y')
 					];
 				} :
 				function($elem) {
