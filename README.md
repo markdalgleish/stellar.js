@@ -236,11 +236,7 @@ $.stellar.positionProperty.foobar = {
       '0)');
   }
 }
-```
 
-Now, you can specify this position property in Stellar.js' configuration.
-
-``` js
 $.stellar({
   positionProperty: 'foobar'
 });
