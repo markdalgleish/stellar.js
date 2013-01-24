@@ -1,4 +1,4 @@
-;(function($, window, document, undefined){
+;(function($, window, document, undefined) {
 
 	var pluginName = 'stellar',
 		defaults = {
@@ -34,12 +34,12 @@
 			},
 			transform: {
 				getLeft: function($elem) {
-					var computedTransform = getComputedStyle($elem[0])[transform];
-					return computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[4], 10) * -1 : 0;
+					var computedTransform = getComputedStyle($elem[0])[prefixedTransform];
+					return (computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[4], 10) * -1 : 0);
 				},
 				getTop: function($elem) {
-					var computedTransform = getComputedStyle($elem[0])[transform];
-					return computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[5], 10) * -1 : 0;
+					var computedTransform = getComputedStyle($elem[0])[prefixedTransform];
+					return (computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[5], 10) * -1 : 0);
 				}
 			}
 		},
@@ -51,14 +51,15 @@
 			},
 			transform: {
 				setPosition: function($elem, left, startingLeft, top, startingTop) {
-					$elem[0].style[transform] = 'translate3d(' + (left - startingLeft) + 'px, ' + (top - startingTop) + 'px, 0)';
+					$elem[0].style[prefixedTransform] = 'translate3d(' + (left - startingLeft) + 'px, ' + (top - startingTop) + 'px, 0)';
 				}
 			}
 		},
 
+		// Returns a function which adds a vendor prefix to any CSS property name
 		vendorPrefix = (function() {
 			var prefixes = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/,
-				style = document.getElementsByTagName('script')[0].style,
+				style = $('script')[0].style,
 				prefix = '',
 				prop;
 
@@ -77,46 +78,44 @@
 			};
 		}()),
 
-		transform = vendorPrefix('transform'),
+		prefixedTransform = vendorPrefix('transform'),
 
 		supportsBackgroundPositionXY = $('<div />').css('background-position-x') !== undefined,
 
-		setBackgroundPosition = (function() {
-			return supportsBackgroundPositionXY ?
-				function($elem, x, y) {
-					$elem.css({
-						'background-position-x': x,
-						'background-position-y': y
-					});
-				} :
-				function($elem, x, y) {
-					$elem.css('background-position', x + ' ' + y);
-				};
-		}()),
+		setBackgroundPosition = (supportsBackgroundPositionXY ?
+			function($elem, x, y) {
+				$elem.css({
+					'background-position-x': x,
+					'background-position-y': y
+				});
+			} :
+			function($elem, x, y) {
+				$elem.css('background-position', x + ' ' + y);
+			}
+		),
 
-		getBackgroundPosition = (function() {
-			return supportsBackgroundPositionXY ?
-				function($elem) {
-					return [
-						$elem.css('background-position-x'),
-						$elem.css('background-position-y')
-					];
-				} :
-				function($elem) {
-					return $elem.css('background-position').split(' ');
-				};
-		}()),
+		getBackgroundPosition = (supportsBackgroundPositionXY ?
+			function($elem) {
+				return [
+					$elem.css('background-position-x'),
+					$elem.css('background-position-y')
+				];
+			} :
+			function($elem) {
+				return $elem.css('background-position').split(' ');
+			}
+		),
 
-		requestAnimFrame = (function(){
-			return window.requestAnimationFrame    ||
-				window.webkitRequestAnimationFrame ||
-				window.mozRequestAnimationFrame    ||
-				window.oRequestAnimationFrame      ||
-				window.msRequestAnimationFrame     ||
-				function(callback, element){
-					window.setTimeout(callback, 1000 / 60);
-				};
-		}());
+		requestAnimFrame = (
+			window.requestAnimationFrame       ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame    ||
+			window.oRequestAnimationFrame      ||
+			window.msRequestAnimationFrame     ||
+			function(callback) {
+				setTimeout(callback, 1000 / 60);
+			}
+		);
 
 	function Plugin(element, options) {
 		this.element = element;
@@ -130,14 +129,14 @@
 
 	Plugin.prototype = {
 		init: function() {
-			this.options.name = pluginName + '_' + Math.floor(Math.random()*10000);
+			this.options.name = pluginName + '_' + Math.floor(Math.random() * 1e9);
 
 			this._defineElements();
 			this._defineGetters();
 			this._defineSetters();
 			this._handleWindowLoadAndResize();
-
 			this._detectViewport();
+
 			this.refresh({ firstLoad: true });
 
 			if (this.options.scrollProperty === 'scroll') {
@@ -149,18 +148,19 @@
 		_defineElements: function() {
 			if (this.element === document.body) this.element = window;
 			this.$scrollElement = $(this.element);
-			this.$element = this.element === window ? $('body') : this.$scrollElement;
-			this.$viewportElement = (this.options.viewportElement !== undefined ? $(this.options.viewportElement) : (this.$scrollElement[0] === window || this.options.scrollProperty.indexOf('scroll') === 0 ? this.$scrollElement : this.$scrollElement.parent()) );
+			this.$element = (this.element === window ? $('body') : this.$scrollElement);
+			this.$viewportElement = (this.options.viewportElement !== undefined ? $(this.options.viewportElement) : (this.$scrollElement[0] === window || this.options.scrollProperty === 'scroll' ? this.$scrollElement : this.$scrollElement.parent()) );
 		},
 		_defineGetters: function() {
-			var self = this;
+			var self = this,
+				scrollPropertyAdapter = scrollProperty[self.options.scrollProperty];
 
 			this._getScrollLeft = function() {
-				return scrollProperty[self.options.scrollProperty].getLeft(self.$scrollElement);
+				return scrollPropertyAdapter.getLeft(self.$scrollElement);
 			};
 
 			this._getScrollTop = function() {
-				return scrollProperty[self.options.scrollProperty].getTop(self.$scrollElement);
+				return scrollPropertyAdapter.getTop(self.$scrollElement);
 			};
 		},
 		_defineSetters: function() {
@@ -170,13 +170,13 @@
 				setScrollLeft = scrollPropertyAdapter.setLeft,
 				setScrollTop = scrollPropertyAdapter.setTop;
 
-			this._setScrollLeft = typeof setScrollLeft === 'function' ? function(val) {
+			this._setScrollLeft = (typeof setScrollLeft === 'function' ? function(val) {
 				setScrollLeft(self.$scrollElement, val);
-			} : $.noop;
+			} : $.noop);
 
-			this._setScrollTop = typeof setScrollTop === 'function' ? function(val) {
+			this._setScrollTop = (typeof setScrollTop === 'function' ? function(val) {
 				setScrollTop(self.$scrollElement, val);
-			} : $.noop;
+			} : $.noop);
 
 			this._setPosition = positionPropertyAdapter.setPosition ||
 				function($elem, left, startingLeft, top, startingTop) {
@@ -221,7 +221,7 @@
 
 			// Fix for WebKit background rendering bug
 			if (options && options.firstLoad && /WebKit/.test(navigator.userAgent)) {
-				$(window).load(function(){
+				$(window).load(function() {
 					var oldLeft = self._getScrollLeft(),
 						oldTop = self._getScrollTop();
 
@@ -243,10 +243,10 @@
 			this.viewportWidth = this.$viewportElement.width();
 			this.viewportHeight = this.$viewportElement.height();
 
-			this.viewportOffsetTop = hasOffsets ? viewportOffsets.top : 0;
-			this.viewportOffsetLeft = hasOffsets ? viewportOffsets.left : 0;
+			this.viewportOffsetTop = (hasOffsets ? viewportOffsets.top : 0);
+			this.viewportOffsetLeft = (hasOffsets ? viewportOffsets.left : 0);
 		},
-		_findParticles: function(){
+		_findParticles: function() {
 			var self = this,
 				scrollLeft = this._getScrollLeft(),
 				scrollTop = this._getScrollTop();
@@ -261,7 +261,7 @@
 
 			if (!this.options.parallaxElements) return;
 
-			this.$element.find('[data-stellar-ratio]').each(function(i){
+			this.$element.find('[data-stellar-ratio]').each(function(i) {
 				var $this = $(this),
 					horizontalOffset,
 					verticalOffset,
@@ -306,7 +306,7 @@
 				offsetTop = $this.offset().top - marginTop;
 
 				// Calculate the offset parent
-				$this.parents().each(function(){
+				$this.parents().each(function() {
 					var $this = $(this);
 
 					if ($this.data('stellar-offset-parent') === true) {
@@ -325,7 +325,7 @@
 				horizontalOffset = ($this.data('stellar-horizontal-offset') !== undefined ? $this.data('stellar-horizontal-offset') : ($offsetParent !== undefined && $offsetParent.data('stellar-horizontal-offset') !== undefined ? $offsetParent.data('stellar-horizontal-offset') : self.horizontalOffset));
 				verticalOffset = ($this.data('stellar-vertical-offset') !== undefined ? $this.data('stellar-vertical-offset') : ($offsetParent !== undefined && $offsetParent.data('stellar-vertical-offset') !== undefined ? $offsetParent.data('stellar-vertical-offset') : self.verticalOffset));
 
-				//Add our object to the particles collection
+				// Add our object to the particles collection
 				self.particles.push({
 					$element: $this,
 					$offsetParent: $offsetParent,
@@ -338,7 +338,7 @@
 					startingOffsetTop: offsetTop,
 					parentOffsetLeft: parentOffsetLeft,
 					parentOffsetTop: parentOffsetTop,
-					stellarRatio: $this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1,
+					stellarRatio: ($this.data('stellar-ratio') !== undefined ? $this.data('stellar-ratio') : 1),
 					width: $this.outerWidth(true),
 					height: $this.outerHeight(true),
 					isHidden: false
@@ -361,7 +361,7 @@
 				$backgroundElements.add(this.$element);
 			}
 
-			$backgroundElements.each(function(){
+			$backgroundElements.each(function() {
 				var $this = $(this),
 					backgroundPosition = getBackgroundPosition($this),
 					horizontalOffset,
@@ -401,7 +401,7 @@
 				offsetTop = $this.offset().top - marginTop - scrollTop;
 				
 				// Calculate the offset parent
-				$this.parents().each(function(){
+				$this.parents().each(function() {
 					var $this = $(this);
 
 					if ($this.data('stellar-offset-parent') === true) {
@@ -428,15 +428,15 @@
 					verticalOffset: verticalOffset,
 					startingValueLeft: backgroundPosition[0],
 					startingValueTop: backgroundPosition[1],
-					startingBackgroundPositionLeft: isNaN(parseInt(backgroundPosition[0], 10)) ? 0 : parseInt(backgroundPosition[0], 10),
-					startingBackgroundPositionTop: isNaN(parseInt(backgroundPosition[1], 10)) ? 0 : parseInt(backgroundPosition[1], 10),
+					startingBackgroundPositionLeft: (isNaN(parseInt(backgroundPosition[0], 10)) ? 0 : parseInt(backgroundPosition[0], 10)),
+					startingBackgroundPositionTop: (isNaN(parseInt(backgroundPosition[1], 10)) ? 0 : parseInt(backgroundPosition[1], 10)),
 					startingPositionLeft: $this.position().left,
 					startingPositionTop: $this.position().top,
 					startingOffsetLeft: offsetLeft,
 					startingOffsetTop: offsetTop,
 					parentOffsetLeft: parentOffsetLeft,
 					parentOffsetTop: parentOffsetTop,
-					stellarRatio: $this.data('stellar-background-ratio') === undefined ? 1 : $this.data('stellar-background-ratio')
+					stellarRatio: ($this.data('stellar-background-ratio') === undefined ? 1 : $this.data('stellar-background-ratio'))
 				});
 			});
 		},
@@ -511,7 +511,7 @@
 				newOffsetTop,
 				i;
 
-			//First check that the scroll position or container size has changed
+			// First check that the scroll position or container size has changed
 			if (this.currentScrollLeft === scrollLeft && this.currentScrollTop === scrollTop && this.currentWidth === this.viewportWidth && this.currentHeight === this.viewportHeight) {
 				return;
 			} else {
@@ -521,13 +521,13 @@
 				this.currentHeight = this.viewportHeight;
 			}
 
-			//Reposition elements
+			// Reposition elements
 			for (i = this.particles.length - 1; i >= 0; i--) {
 				particle = this.particles[i];
 
-				fixedRatioOffset = particle.isFixed ? 1 : 0;
+				fixedRatioOffset = (particle.isFixed ? 1 : 0);
 
-				//Calculate position, then calculate what the particle's new offset will be (for visibility check)
+				// Calculate position, then calculate what the particle's new offset will be (for visibility check)
 				if (this.options.horizontalScrolling) {
 					newPositionLeft = (scrollLeft + particle.horizontalOffset + this.viewportOffsetLeft + particle.startingPositionLeft - particle.startingOffsetLeft + particle.parentOffsetLeft) * -(particle.stellarRatio + fixedRatioOffset - 1) + particle.startingPositionLeft;
 					newOffsetLeft = newPositionLeft - particle.startingPositionLeft + particle.startingOffsetLeft;
@@ -544,7 +544,7 @@
 					newOffsetTop = particle.startingOffsetTop;
 				}
 
-				//Check visibility
+				// Check visibility
 				if (this.options.hideDistantElements) {
 					isVisibleHorizontal = !this.options.horizontalScrolling || newOffsetLeft + particle.width > (particle.isFixed ? 0 : scrollLeft) && newOffsetLeft < (particle.isFixed ? 0 : scrollLeft) + this.viewportWidth + this.viewportOffsetLeft;
 					isVisibleVertical = !this.options.verticalScrolling || newOffsetTop + particle.height > (particle.isFixed ? 0 : scrollTop) && newOffsetTop < (particle.isFixed ? 0 : scrollTop) + this.viewportHeight + this.viewportOffsetTop;
@@ -565,13 +565,13 @@
 				}
 			}
 
-			//Reposition backgrounds
+			// Reposition backgrounds
 			for (i = this.backgrounds.length - 1; i >= 0; i--) {
 				background = this.backgrounds[i];
 
-				fixedRatioOffset = background.isFixed ? 0 : 1;
-				bgLeft = this.options.horizontalScrolling ? (scrollLeft + background.horizontalOffset - this.viewportOffsetLeft - background.startingOffsetLeft + background.parentOffsetLeft - background.startingBackgroundPositionLeft) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueLeft;
-				bgTop = this.options.verticalScrolling ? (scrollTop + background.verticalOffset - this.viewportOffsetTop - background.startingOffsetTop + background.parentOffsetTop - background.startingBackgroundPositionTop) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueTop;
+				fixedRatioOffset = (background.isFixed ? 0 : 1);
+				bgLeft = (this.options.horizontalScrolling ? (scrollLeft + background.horizontalOffset - this.viewportOffsetLeft - background.startingOffsetLeft + background.parentOffsetLeft - background.startingBackgroundPositionLeft) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueLeft);
+				bgTop = (this.options.verticalScrolling ? (scrollTop + background.verticalOffset - this.viewportOffsetTop - background.startingOffsetTop + background.parentOffsetTop - background.startingBackgroundPositionTop) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueTop);
 
 				setBackgroundPosition(background.$element, bgLeft, bgTop);
 			}
@@ -598,7 +598,7 @@
 		_startAnimationLoop: function() {
 			var self = this;
 
-			this._animationLoop = function(){
+			this._animationLoop = function() {
 				requestAnimFrame(self._animationLoop);
 				self._repositionElements();
 			};
@@ -632,10 +632,10 @@
 		return $window.stellar.apply($window, Array.prototype.slice.call(arguments, 0));
 	};
 
-	//Expose the scroll and position property function hashes so they can be extended
+	// Expose the scroll and position property function hashes so they can be extended
 	$[pluginName].scrollProperty = scrollProperty;
 	$[pluginName].positionProperty = positionProperty;
 
-	//Expose the plugin class so it can be modified
+	// Expose the plugin class so it can be modified
 	window.Stellar = Plugin;
-}(jQuery, window, document));
+}(jQuery, this, document));
