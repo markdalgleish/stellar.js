@@ -19,10 +19,7 @@
 		scrollProperty = {
 			scroll: {
 				getLeft: function($elem) { return $elem.scrollLeft(); },
-				setLeft: function($elem, val) { $elem.scrollLeft(val); },
-
-				getTop: function($elem) { return $elem.scrollTop();	},
-				setTop: function($elem, val) { $elem.scrollTop(val); }
+				getTop: function($elem) { return $elem.scrollTop();	}
 			},
 			position: {
 				getLeft: function($elem) { return parseInt($elem.css('left'), 10) * -1; },
@@ -165,18 +162,7 @@
 		},
 		_defineSetters: function() {
 			var self = this,
-				scrollPropertyAdapter = scrollProperty[self.options.scrollProperty],
-				positionPropertyAdapter = positionProperty[self.options.positionProperty],
-				setScrollLeft = scrollPropertyAdapter.setLeft,
-				setScrollTop = scrollPropertyAdapter.setTop;
-
-			this._setScrollLeft = (typeof setScrollLeft === 'function' ? function(val) {
-				setScrollLeft(self.$scrollElement, val);
-			} : $.noop);
-
-			this._setScrollTop = (typeof setScrollTop === 'function' ? function(val) {
-				setScrollTop(self.$scrollElement, val);
-			} : $.noop);
+				positionPropertyAdapter = positionProperty[self.options.positionProperty];
 
 			this._setPosition = positionPropertyAdapter.setPosition ||
 				function($elem, left, startingLeft, top, startingTop) {
@@ -208,33 +194,13 @@
 			});
 		},
 		refresh: function(options) {
-			var self = this,
-				oldLeft = self._getScrollLeft(),
-				oldTop = self._getScrollTop();
-
-			this._setScrollLeft(0);
-			this._setScrollTop(0);
+			if (!options || !options.firstLoad) {
+				this._reset();
+			}
 
 			this._setOffsets();
 			this._findParticles();
 			this._findBackgrounds();
-
-			// Fix for WebKit background rendering bug
-			if (options && options.firstLoad && /WebKit/.test(navigator.userAgent)) {
-				$(window).load(function() {
-					var oldLeft = self._getScrollLeft(),
-						oldTop = self._getScrollTop();
-
-					self._setScrollLeft(oldLeft + 1);
-					self._setScrollTop(oldTop + 1);
-
-					self._setScrollLeft(oldLeft);
-					self._setScrollTop(oldTop);
-				});
-			}
-
-			this._setScrollLeft(oldLeft);
-			this._setScrollTop(oldTop);
 		},
 		_detectViewport: function() {
 			var viewportOffsets = this.$viewportElement.offset(),
@@ -440,7 +406,7 @@
 				});
 			});
 		},
-		destroy: function() {
+		_reset: function() {
 			var particle,
 				startingPositionLeft,
 				startingPositionTop,
@@ -461,8 +427,14 @@
 
 			for (i = this.backgrounds.length - 1; i >= 0; i--) {
 				background = this.backgrounds[i];
+
+				background.$element.data('stellar-backgroundStartingLeft', null).data('stellar-backgroundStartingTop', null);
+
 				setBackgroundPosition(background.$element, background.startingValueLeft, background.startingValueTop);
 			}
+		},
+		destroy: function() {
+			this._reset();
 
 			this.$scrollElement.unbind('resize.' + this.name).unbind('scroll.' + this.name);
 			this._animationLoop = $.noop;
