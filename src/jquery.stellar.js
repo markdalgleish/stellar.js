@@ -357,8 +357,8 @@
 
 			$backgroundElements = this.$element.find('[data-stellar-background-ratio]');
 
-			if (this.$element.is('[data-stellar-background-ratio]')) {
-				$backgroundElements.add(this.$element);
+			if (this.$element.data('stellar-background-ratio')) {
+                $backgroundElements = $backgroundElements.add(this.$element);
 			}
 
 			$backgroundElements.each(function() {
