@@ -1,5 +1,5 @@
 /*!
- * Stellar.js v0.6.0
+ * Stellar.js v0.6.1
  * http://markdalgleish.com/projects/stellar.js
  * 
  * Copyright 2013, Mark Dalgleish
@@ -370,8 +370,8 @@
 
 			$backgroundElements = this.$element.find('[data-stellar-background-ratio]');
 
-			if (this.$element.is('[data-stellar-background-ratio]')) {
-				$backgroundElements.add(this.$element);
+			if (this.$element.data('stellar-background-ratio')) {
+                $backgroundElements = $backgroundElements.add(this.$element);
 			}
 
 			$backgroundElements.each(function() {
