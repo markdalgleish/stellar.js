@@ -1,5 +1,5 @@
 /*!
- * Stellar.js v0.6.1
+ * Stellar.js v0.6.2
  * http://markdalgleish.com/projects/stellar.js
  * 
  * Copyright 2013, Mark Dalgleish
@@ -89,7 +89,7 @@
 
 		prefixedTransform = vendorPrefix('transform'),
 
-		supportsBackgroundPositionXY = $('<div />').css('background-position-x') !== undefined,
+		supportsBackgroundPositionXY = $('<div />', { style: 'background:#fff' }).css('background-position-x') !== undefined,
 
 		setBackgroundPosition = (supportsBackgroundPositionXY ?
 			function($elem, x, y) {

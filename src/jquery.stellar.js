@@ -80,7 +80,7 @@
 
 		prefixedTransform = vendorPrefix('transform'),
 
-		supportsBackgroundPositionXY = $('<div />').css('background-position-x') !== undefined,
+		supportsBackgroundPositionXY = $('<div />', { style: 'background:#fff' }).css('background-position-x') !== undefined,
 
 		setBackgroundPosition = (supportsBackgroundPositionXY ?
 			function($elem, x, y) {
