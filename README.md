@@ -1,6 +1,6 @@
 [![Build Status](https://secure.travis-ci.org/markdalgleish/stellar.js.png)](http://travis-ci.org/markdalgleish/stellar.js)
 
-# [Stellar.js](http://markdalgleish.com/projects/stellar.js/) [![endorse](http://api.coderwall.com/markdalgleish/endorsecount.png)](http://coderwall.com/markdalgleish)
+# Stellar.js
 
 ### Parallax scrolling made easy
 
