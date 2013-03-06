@@ -244,15 +244,7 @@ $.stellar({
 
 ## Package Managers
 
-Stellar.js can be installed with the following tools.
-
-### [Yeoman](http://yeoman.io/)
-
-``` bash
-$ yeoman install jquery.stellar
-```
-
-### [Bower](http://twitter.github.com/bower/)
+Stellar.js can be installed with [Bower](http://twitter.github.com/bower/):
 
 ``` bash
 $ bower install jquery.stellar
@@ -260,17 +252,20 @@ $ bower install jquery.stellar
 
 ## Sites Using Stellar.js
 
-* [Magic City](http://mc.starz.com)
 * [National Geographic - Alien Deep Interactive](http://channel.nationalgeographic.com/channel/alien-deep/interactives/alien-deep-interactive)
 * [François Hollande](http://www.parti-socialiste.fr/latimelineduchangement)
 * [Brabus Private Aviation](http://www.brabus-aviation.com/)
+* [Mary and Frankie's Wedding](http://www.maryandfrankiewedding.com/)
 * [IT Support London](http://www.itsupportlondon.com)
 * [Ashford University](http://bright.ashford.edu)
+* [Clif Adventures](http://www.clifbar.com/adventures)
+* [Mindster](http://www.mindster.org)
 * [WS Interactive](http://www.ws-interactive.fr/methode)
 * [Moire Mag - Untitled](http://www.moiremag.net/untitled)
 * [Carnival of Courage](http://www.carnivalofcourage.com.au)
 * [Ian Poulter](http://www.ianpoulter.com)
 * [360 Strategy Group](http://360strategygroup.com)
+* [Code, Love and Boards](http://codeloveandboards.com/)
 
 I'm sure there are heaps more. [Let me know if you'd like me to feature your site here.](http://twitter.com/markdalgleish)
 
