@@ -36,7 +36,7 @@
 				getLeft: function($elem) {
 					var computedTransform, matrix, left;
 					computedTransform = getComputedStyle($elem[0])[prefixedTransform];
-					if (computedTransform === 'none') {
+					if (typeof(computedTransform) === 'undefined' || computedTransform === 'none') {
 						left = 0;
 					} else {
 						matrix = computedTransform.replace(/[^0-9\-.,]/g, '').split(',');
@@ -47,14 +47,13 @@
 				getTop: function($elem) {
 					var computedTransform, matrix, top;
 					computedTransform = getComputedStyle($elem[0])[prefixedTransform];
-					if (computedTransform === 'none') {
+					if (typeof(computedTransform) === 'undefined' || computedTransform === 'none') {
 						top = 0;
 					} else {
 						matrix = computedTransform.replace(/[^0-9\-.,]/g, '').split(',');
 						top = parseInt(matrix[13] || matrix[5], 10) * -1;
 					}
 					return top;
-
 				}
 			}
 		},
