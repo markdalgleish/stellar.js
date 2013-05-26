@@ -43,9 +43,9 @@ If you want elements to scroll at a different speed, add the following attribute
 <div data-stellar-ratio="2">
 ```
 
-The ratio is relative to the natural scroll speed, so a ratio of 0.5 would cause the element to scroll at half-speed, a ratio of 1 would have no effect, and a ratio of 2 would cause the element to scroll at twice the speed.
+The ratio is relative to the natural scroll speed, so a ratio of 0.5 would cause the element to scroll at half-speed, a ratio of 1 would have no effect, and a ratio of 2 would cause the element to scroll at twice the speed. If a ratio lower than 1 is causing the element to appear jittery, try setting its CSS position to fixed.
 
-If a ratio lower than 1 is causing the element to appear jittery, try setting its CSS position to fixed.
+In order for Stellar.js to perform its calculations correctly, all parallax elements must have their dimensions specified in pixels for the axis/axes being used for parallax effects. For example, all parallax elements for a vertical site must have a pixel height specified. If your design prohibits the use of pixels, try using the ['responsive' option](#configuring-everything).
 
 ## Parallax Backgrounds
 
