@@ -442,7 +442,9 @@
 					startingValueLeft: backgroundPosition[0],
 					startingValueTop: backgroundPosition[1],
 					startingBackgroundPositionLeft: (isNaN(parseInt(backgroundPosition[0], 10)) ? 0 : parseInt(backgroundPosition[0], 10)),
+					startingBackgroundPositionLeftUnit: backgroundPosition[0].substr((parseInt(backgroundPosition[0], 10)+"").length),
 					startingBackgroundPositionTop: (isNaN(parseInt(backgroundPosition[1], 10)) ? 0 : parseInt(backgroundPosition[1], 10)),
+					startingBackgroundPositionTopUnit: backgroundPosition[1].substr((parseInt(backgroundPosition[1], 10)+"").length),
 					startingPositionLeft: $this.position().left,
 					startingPositionTop: $this.position().top,
 					startingOffsetLeft: offsetLeft,
@@ -589,8 +591,10 @@
 				background = this.backgrounds[i];
 
 				fixedRatioOffset = (background.isFixed ? 0 : 1);
-				bgLeft = (this.options.horizontalScrolling ? (scrollLeft + background.horizontalOffset - this.viewportOffsetLeft - background.startingOffsetLeft + background.parentOffsetLeft - background.startingBackgroundPositionLeft) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueLeft);
-				bgTop = (this.options.verticalScrolling ? (scrollTop + background.verticalOffset - this.viewportOffsetTop - background.startingOffsetTop + background.parentOffsetTop - background.startingBackgroundPositionTop) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueTop);
+				bgLeftUsingPercentagePosition = background.startingBackgroundPositionLeftUnit === '%';
+				bgLeft = (this.options.horizontalScrolling ? ((scrollLeft + background.horizontalOffset - this.viewportOffsetLeft - background.startingOffsetLeft + background.parentOffsetLeft - background.startingBackgroundPositionLeft * (bgLeftUsingPercentagePosition ? 0 : 1)) * (bgLeftUsingPercentagePosition ? 100 / parseInt(background.$element.css('width'), 10) : 1) * (fixedRatioOffset - background.stellarRatio) - background.startingBackgroundPositionLeft * (bgLeftUsingPercentagePosition ? 1 : 0)) * (bgLeftUsingPercentagePosition ? -1 : 1) + background.startingBackgroundPositionLeftUnit : background.startingValueLeft);
+				bgTopUsingPercentagePosition = background.startingBackgroundPositionTopUnit === '%';
+				bgTop = (this.options.verticalScrolling ? ((scrollTop + background.verticalOffset - this.viewportOffsetTop - background.startingOffsetTop + background.parentOffsetTop - background.startingBackgroundPositionTop * (bgTopUsingPercentagePosition ? 0 : 1)) * (bgTopUsingPercentagePosition ? 100 / parseInt(background.$element.css('height'), 10) : 1) * (fixedRatioOffset - background.stellarRatio) - background.startingBackgroundPositionTop * (bgTopUsingPercentagePosition ? 1 : 0)) * (bgTopUsingPercentagePosition ? -1 : 1) + background.startingBackgroundPositionTopUnit : background.startingValueTop);
 
 				setBackgroundPosition(background.$element, bgLeft, bgTop);
 			}
