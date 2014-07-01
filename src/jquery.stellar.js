@@ -1,3 +1,12 @@
+/*!
+ * Stellar.js v0.6.2
+ * http://markdalgleish.com/projects/stellar.js
+ *
+ * Copyright 2014, Mark Dalgleish
+ * This content is released under the MIT license
+ * http://markdalgleish.mit-license.org
+ */
+
 ;(function($, window, document, undefined) {
 
 	var pluginName = 'stellar',
@@ -504,32 +513,25 @@
 			}
 		},
 		_repositionElements: function() {
-			var scrollLeft = this._getScrollLeft(),
-				scrollTop = this._getScrollTop(),
-				horizontalOffset,
-				verticalOffset,
-				particle,
-				fixedRatioOffset,
-				background,
-				bgLeft,
-				bgTop,
-				isVisibleVertical = true,
-				isVisibleHorizontal = true,
-				newPositionLeft,
-				newPositionTop,
-				newOffsetLeft,
-				newOffsetTop,
-				i;
+			var scrollLeft=this.currentScrollLeft,
+                            scrollTop=this.currentScrollTop,
+                            horizontalOffset,
+                            verticalOffset,
+                            particle,
+                            fixedRatioOffset,
+                            background,
+                            bgLeft,
+                            bgTop,
+                            isVisibleVertical = true,
+                            isVisibleHorizontal = true,
+                            newPositionLeft,
+                            newPositionTop,
+                            newOffsetLeft,
+                            newOffsetTop,
+                            i;
 
-			// First check that the scroll position or container size has changed
-			if (this.currentScrollLeft === scrollLeft && this.currentScrollTop === scrollTop && this.currentWidth === this.viewportWidth && this.currentHeight === this.viewportHeight) {
-				return;
-			} else {
-				this.currentScrollLeft = scrollLeft;
-				this.currentScrollTop = scrollTop;
-				this.currentWidth = this.viewportWidth;
-				this.currentHeight = this.viewportHeight;
-			}
+                        this.currentWidth = this.viewportWidth;
+                        this.currentHeight = this.viewportHeight;
 
 			// Reposition elements
 			for (i = this.particles.length - 1; i >= 0; i--) {
@@ -595,8 +597,19 @@
 				ticking = false;
 			};
 
-			var requestTick = function() {
-				if (!ticking) {
+			var requestTick = function(evt) {
+                                var scrollLeft = self._getScrollLeft();
+				var scrollTop = self._getScrollTop();
+
+                                // First check that the scroll position or container size has changed
+                                if (((self.currentScrollLeft === scrollLeft && self.currentWidth === self.viewportWidth) || !self.options.horizontalScrolling) && ((self.currentScrollTop === scrollTop && self.currentHeight === self.viewportHeight) || !self.options.verticalScrolling)) {
+                                    return;
+                                }
+
+                                self.currentScrollLeft = scrollLeft;
+                                self.currentScrollTop = scrollTop;
+
+                                if (!ticking) {
 					requestAnimFrame(update);
 					ticking = true;
 				}
