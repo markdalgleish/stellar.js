@@ -449,7 +449,7 @@
 					startingOffsetTop: offsetTop,
 					parentOffsetLeft: parentOffsetLeft,
 					parentOffsetTop: parentOffsetTop,
-					stellarRatio: ($this.data('stellar-background-ratio') === undefined ? 1 : $this.data('stellar-background-ratio'))
+					stellarRatio: ($($this).attr('data-stellar-background-ratio') === undefined ? 1 : $($this).attr('data-stellar-background-ratio'))
 				});
 			});
 		},
