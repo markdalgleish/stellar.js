@@ -3,7 +3,7 @@
 
 # Stellar.js
 
-> **PLEASE NOTE:** This project is no longer maintained. If parallax scrolling is something you care about, please fork this project. I'm happy to list any notable forks in this readme.
+> **PLEASE NOTE:** This project is no longer maintained. If parallax scrolling is something you care about, please [apply to become a contributor to this project](https://github.com/markdalgleish/stellar.js/issues/116#issuecomment-76816489).
 
 ### Parallax scrolling made easy
 
