@@ -247,7 +247,7 @@ $.stellar({
 
 ## Package Managers
 
-Stellar.js can be installed with [Bower](http://twitter.github.com/bower/):
+Stellar.js can be installed with [Bower](http://bower.io/):
 
 ``` bash
 $ bower install jquery.stellar
@@ -274,7 +274,7 @@ I'm sure there are heaps more. [Let me know if you'd like me to feature your sit
 
 ## How to Build
 
-Stellar.js uses [Node.js](nodejs.org), [Grunt](http://gruntjs.com) and [PhantomJS](http://phantomjs.org/).
+Stellar.js uses [Node.js](https://nodejs.org/), [Grunt](http://gruntjs.com) and [PhantomJS](http://phantomjs.org/).
 
 Once you've got Node and PhantomJS set up, install the dependencies:
 
