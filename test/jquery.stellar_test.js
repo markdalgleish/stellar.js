@@ -351,6 +351,36 @@
 				start();
 			}, 20);
 		});
+
+
+		asyncTest('support refreshing the background ratio', 4, function() {
+			$(window).stellar({
+				hideDistantElements: false
+			}).scrollTop(20).scrollLeft(0);
+			
+			$('#background-attachment-scroll .ratio--1').attr('data-stellar-background-ratio', -0.5);
+			$('#background-attachment-scroll .ratio-0-5').attr('data-stellar-background-ratio', 0.25);
+			$('#background-attachment-scroll .ratio-1').attr('data-stellar-background-ratio', 0.5);
+			$('#background-attachment-scroll .ratio-2').attr('data-stellar-background-ratio', 1);
+
+			$(window).stellar('refresh');
+			
+			setTimeout(function() {
+				strictEqual($('#background-attachment-scroll .ratio--1').css('background-position'), '0px 30px', 'should support negative ratios');
+				strictEqual($('#background-attachment-scroll .ratio-0-5').css('background-position'), '0px 15px', 'should support ratios between 0 and 1');
+				strictEqual($('#background-attachment-scroll .ratio-1').css('background-position'), '0px 10px', 'should support ratios of 1');
+				strictEqual($('#background-attachment-scroll .ratio-2').css('background-position'), '0px 0px', 'should support ratios greater than 1');
+				
+				$(window).stellar('destroy').scrollTop(0).scrollLeft(0);
+
+				//Replace good values
+				$('#background-attachment-scroll .ratio--1').attr('data-stellar-background-ratio', -1);
+				$('#background-attachment-scroll .ratio-0-5').attr('data-stellar-background-ratio', 0.5);
+				$('#background-attachment-scroll .ratio-1').attr('data-stellar-background-ratio', 1);
+				$('#background-attachment-scroll .ratio-2').attr('data-stellar-background-ratio', 2);
+				start();
+			}, 20);
+		});
 		
 		module("Parallax elements with offset parents");
 		
