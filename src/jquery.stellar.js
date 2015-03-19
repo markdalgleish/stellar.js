@@ -34,12 +34,26 @@
 			},
 			transform: {
 				getLeft: function($elem) {
-					var computedTransform = getComputedStyle($elem[0])[prefixedTransform];
-					return (computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[4], 10) * -1 : 0);
+					var computedTransform, matrix, left;
+					computedTransform = getComputedStyle($elem[0])[prefixedTransform];
+					if (typeof(computedTransform) === 'undefined' || computedTransform === 'none') {
+						left = 0;
+					} else {
+						matrix = computedTransform.replace(/[^0-9\-.,]/g, '').split(',');
+						left = parseInt(matrix[12] || matrix[4], 10) * -1;
+					}
+					return left;
 				},
 				getTop: function($elem) {
-					var computedTransform = getComputedStyle($elem[0])[prefixedTransform];
-					return (computedTransform !== 'none' ? parseInt(computedTransform.match(/(-?[0-9]+)/g)[5], 10) * -1 : 0);
+					var computedTransform, matrix, top;
+					computedTransform = getComputedStyle($elem[0])[prefixedTransform];
+					if (typeof(computedTransform) === 'undefined' || computedTransform === 'none') {
+						top = 0;
+					} else {
+						matrix = computedTransform.replace(/[^0-9\-.,]/g, '').split(',');
+						top = parseInt(matrix[13] || matrix[5], 10) * -1;
+					}
+					return top;
 				}
 			}
 		},
