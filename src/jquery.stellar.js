@@ -279,7 +279,10 @@
 					parentOffsetLeft = 0,
 					parentOffsetTop = 0,
 					tempParentOffsetLeft = 0,
-					tempParentOffsetTop = 0;
+					tempParentOffsetTop = 0,
+					clonedThis = $this.clone();
+					
+					clonedThis.hide();
 
 				// Ensure this element isn't already part of another scrolling element
 				if (!$this.data('stellar-elementIsActive')) {
@@ -292,8 +295,8 @@
 
 				// Save/restore the original top and left CSS values in case we refresh the particles or destroy the instance
 				if (!$this.data('stellar-startingLeft')) {
-					$this.data('stellar-startingLeft', $this.css('left'));
-					$this.data('stellar-startingTop', $this.css('top'));
+					$this.data('stellar-startingLeft', clonedThis.css('left'));
+					$this.data('stellar-startingTop', clonedThis.css('top'));
 				} else {
 					$this.css('left', $this.data('stellar-startingLeft'));
 					$this.css('top', $this.data('stellar-startingTop'));
@@ -432,8 +435,8 @@
 					verticalOffset: verticalOffset,
 					startingValueLeft: backgroundPosition[0],
 					startingValueTop: backgroundPosition[1],
-					startingBackgroundPositionLeft: (isNaN(parseInt(backgroundPosition[0], 10)) ? 0 : parseInt(backgroundPosition[0], 10)),
-					startingBackgroundPositionTop: (isNaN(parseInt(backgroundPosition[1], 10)) ? 0 : parseInt(backgroundPosition[1], 10)),
+					startingBackgroundPositionLeft: (isNaN(parseInt(backgroundPosition[0], 10)) ? 0 : (-1 !== backgroundPosition[0].indexOf('%') ? (isNaN(parseInt($this.css('width'), 10)) ? 0 : parseInt($this.css('width'), 10) * (parseInt(backgroundPosition[0], 10) / 100)) : parseInt(backgroundPosition[0], 10))),
+					startingBackgroundPositionTop: (isNaN(parseInt(backgroundPosition[1], 10)) ? 0 : (-1 !== backgroundPosition[1].indexOf('%') ? (isNaN(parseInt($this.css('height'), 10)) ? 0 : parseInt($this.css('height'), 10) * (parseInt(backgroundPosition[1], 10) / 100)) : parseInt(backgroundPosition[1], 10))),
 					startingPositionLeft: $this.position().left,
 					startingPositionTop: $this.position().top,
 					startingOffsetLeft: offsetLeft,
