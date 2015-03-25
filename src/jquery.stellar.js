@@ -1,4 +1,15 @@
-;(function($, window, document, undefined) {
+;(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(function(require) {
+			var $ = require('jquery');
+			factory($, window, document);
+		});
+	} else {
+		// Browser globals
+		factory(jQuery, window, document);
+	}
+}(function($, window, document, undefined) {
 
 	var pluginName = 'stellar',
 		defaults = {
@@ -362,7 +373,7 @@
 			$backgroundElements = this.$element.find('[data-stellar-background-ratio]');
 
 			if (this.$element.data('stellar-background-ratio')) {
-                $backgroundElements = $backgroundElements.add(this.$element);
+				$backgroundElements = $backgroundElements.add(this.$element);
 			}
 
 			$backgroundElements.each(function() {
@@ -648,4 +659,4 @@
 
 	// Expose the plugin class so it can be modified
 	window.Stellar = Plugin;
-}(jQuery, this, document));
+}));

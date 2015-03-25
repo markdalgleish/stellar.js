@@ -31,7 +31,8 @@ module.exports = function(grunt) {
 				browser: true,
 				node: true,
 				predef: {
-					jQuery: true
+					jQuery: true,
+					define: true
 				}
 			}
 		},
