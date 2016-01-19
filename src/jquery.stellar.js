@@ -53,6 +53,8 @@
 				setPosition: function($elem, left, startingLeft, top, startingTop) {
 					startingLeft = (startingLeft==='auto')?0:startingLeft;
 					startingTop = (startingTop==='auto')?0:startingTop;
+					left = (left==='auto')?0:left;
+					top = (top==='auto')?0:top;
 					$elem[0].style[prefixedTransform] = 'translate3d(' + (left - startingLeft) + 'px, ' + (top - startingTop) + 'px, 0)';
 				}
 			}
