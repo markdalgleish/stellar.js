@@ -51,6 +51,8 @@
 			},
 			transform: {
 				setPosition: function($elem, left, startingLeft, top, startingTop) {
+					startingLeft = (startingLeft==='auto')?0:startingLeft;
+					startingTop = (startingTop==='auto')?0:startingTop;
 					$elem[0].style[prefixedTransform] = 'translate3d(' + (left - startingLeft) + 'px, ' + (top - startingTop) + 'px, 0)';
 				}
 			}
@@ -187,6 +189,7 @@
 					if (self.options.verticalScrolling) {
 						positionPropertyAdapter.setTop($elem, top, startingTop);
 					}
+				
 				};
 		},
 		_handleWindowLoadAndResize: function() {
