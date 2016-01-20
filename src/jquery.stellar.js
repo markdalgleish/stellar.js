@@ -199,12 +199,12 @@
 				$window = $(window);
 
 			if (self.options.responsive) {
-				$window.bind('load.' + this.name, function() {
+				$window.bind('load.' + self.options.name, function() {
 					self.refresh();
 				});
 			}
 
-			$window.bind('resize.' + this.name, function() {
+			$window.bind('resize.' + self.options.name, function() {
 				self._detectViewport();
 
 				if (self.options.responsive) {
@@ -479,20 +479,20 @@
 		destroy: function() {
 			this._reset();
 
-			this.$scrollElement.unbind('resize.' + this.name).unbind('scroll.' + this.name);
+			this.$scrollElement.unbind('resize.' + this.options.name).unbind('scroll.' + this.options.name);
 			this._animationLoop = $.noop;
 
-			$(window).unbind('load.' + this.name).unbind('resize.' + this.name);
+			$(window).unbind('load.' + this.options.name).unbind('resize.' + this.options.name);
 		},
 		_setOffsets: function() {
 			var self = this,
 				$window = $(window);
 
-			$window.unbind('resize.horizontal-' + this.name).unbind('resize.vertical-' + this.name);
+			$window.unbind('resize.horizontal-' + this.options.name).unbind('resize.vertical-' + this.options.name);
 
 			if (typeof this.options.horizontalOffset === 'function') {
 				this.horizontalOffset = this.options.horizontalOffset();
-				$window.bind('resize.horizontal-' + this.name, function() {
+				$window.bind('resize.horizontal-' + this.options.name, function() {
 					self.horizontalOffset = self.options.horizontalOffset();
 				});
 			} else {
@@ -501,7 +501,7 @@
 
 			if (typeof this.options.verticalOffset === 'function') {
 				this.verticalOffset = this.options.verticalOffset();
-				$window.bind('resize.vertical-' + this.name, function() {
+				$window.bind('resize.vertical-' + this.options.name, function() {
 					self.verticalOffset = self.options.verticalOffset();
 				});
 			} else {
@@ -607,7 +607,7 @@
 				}
 			};
 			
-			this.$scrollElement.bind('scroll.' + this.name, requestTick);
+			this.$scrollElement.bind('scroll.' + this.options.name, requestTick);
 			requestTick();
 		},
 		_startAnimationLoop: function() {
