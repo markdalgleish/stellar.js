@@ -51,6 +51,10 @@
 			},
 			transform: {
 				setPosition: function($elem, left, startingLeft, top, startingTop) {
+					startingLeft = (startingLeft==='auto')?0:startingLeft;
+					startingTop = (startingTop==='auto')?0:startingTop;
+					left = (left==='auto')?0:left;
+					top = (top==='auto')?0:top;
 					$elem[0].style[prefixedTransform] = 'translate3d(' + (left - startingLeft) + 'px, ' + (top - startingTop) + 'px, 0)';
 				}
 			}
@@ -187,6 +191,7 @@
 					if (self.options.verticalScrolling) {
 						positionPropertyAdapter.setTop($elem, top, startingTop);
 					}
+				
 				};
 		},
 		_handleWindowLoadAndResize: function() {
@@ -194,12 +199,12 @@
 				$window = $(window);
 
 			if (self.options.responsive) {
-				$window.bind('load.' + this.name, function() {
+				$window.bind('load.' + self.options.name, function() {
 					self.refresh();
 				});
 			}
 
-			$window.bind('resize.' + this.name, function() {
+			$window.bind('resize.' + self.options.name, function() {
 				self._detectViewport();
 
 				if (self.options.responsive) {
@@ -433,14 +438,16 @@
 					startingValueLeft: backgroundPosition[0],
 					startingValueTop: backgroundPosition[1],
 					startingBackgroundPositionLeft: (isNaN(parseInt(backgroundPosition[0], 10)) ? 0 : parseInt(backgroundPosition[0], 10)),
+                    startingBackgroundPositionLeftUnit: backgroundPosition[0] === '0%' ? 'px' : backgroundPosition[0].substr((parseInt(backgroundPosition[0], 10)+"").length),
 					startingBackgroundPositionTop: (isNaN(parseInt(backgroundPosition[1], 10)) ? 0 : parseInt(backgroundPosition[1], 10)),
+                    startingBackgroundPositionTopUnit: backgroundPosition[1] === '0%' ? 'px' : backgroundPosition[1].substr((parseInt(backgroundPosition[1], 10)+"").length),
 					startingPositionLeft: $this.position().left,
 					startingPositionTop: $this.position().top,
 					startingOffsetLeft: offsetLeft,
 					startingOffsetTop: offsetTop,
 					parentOffsetLeft: parentOffsetLeft,
 					parentOffsetTop: parentOffsetTop,
-					stellarRatio: ($this.data('stellar-background-ratio') === undefined ? 1 : $this.data('stellar-background-ratio'))
+					stellarRatio: ($this.attr('data-stellar-background-ratio') === undefined ? 1 : $this.attr('data-stellar-background-ratio'))
 				});
 			});
 		},
@@ -474,20 +481,20 @@
 		destroy: function() {
 			this._reset();
 
-			this.$scrollElement.unbind('resize.' + this.name).unbind('scroll.' + this.name);
+			this.$scrollElement.unbind('resize.' + this.options.name).unbind('scroll.' + this.options.name);
 			this._animationLoop = $.noop;
 
-			$(window).unbind('load.' + this.name).unbind('resize.' + this.name);
+			$(window).unbind('load.' + this.options.name).unbind('resize.' + this.options.name);
 		},
 		_setOffsets: function() {
 			var self = this,
 				$window = $(window);
 
-			$window.unbind('resize.horizontal-' + this.name).unbind('resize.vertical-' + this.name);
+			$window.unbind('resize.horizontal-' + this.options.name).unbind('resize.vertical-' + this.options.name);
 
 			if (typeof this.options.horizontalOffset === 'function') {
 				this.horizontalOffset = this.options.horizontalOffset();
-				$window.bind('resize.horizontal-' + this.name, function() {
+				$window.bind('resize.horizontal-' + this.options.name, function() {
 					self.horizontalOffset = self.options.horizontalOffset();
 				});
 			} else {
@@ -496,7 +503,7 @@
 
 			if (typeof this.options.verticalOffset === 'function') {
 				this.verticalOffset = this.options.verticalOffset();
-				$window.bind('resize.vertical-' + this.name, function() {
+				$window.bind('resize.vertical-' + this.options.name, function() {
 					self.verticalOffset = self.options.verticalOffset();
 				});
 			} else {
@@ -580,8 +587,10 @@
 				background = this.backgrounds[i];
 
 				fixedRatioOffset = (background.isFixed ? 0 : 1);
-				bgLeft = (this.options.horizontalScrolling ? (scrollLeft + background.horizontalOffset - this.viewportOffsetLeft - background.startingOffsetLeft + background.parentOffsetLeft - background.startingBackgroundPositionLeft) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueLeft);
-				bgTop = (this.options.verticalScrolling ? (scrollTop + background.verticalOffset - this.viewportOffsetTop - background.startingOffsetTop + background.parentOffsetTop - background.startingBackgroundPositionTop) * (fixedRatioOffset - background.stellarRatio) + 'px' : background.startingValueTop);
+                var bgLeftUsingPercentagePosition = background.startingBackgroundPositionLeftUnit === '%';
+				bgLeft = (this.options.horizontalScrolling ? ((scrollLeft + background.horizontalOffset - this.viewportOffsetLeft - background.startingOffsetLeft + background.parentOffsetLeft - background.startingBackgroundPositionLeft * (bgLeftUsingPercentagePosition ? 0 : 1)) * (bgLeftUsingPercentagePosition ? 100 / parseInt(background.$element.css('width'), 10) : 1) * (fixedRatioOffset - background.stellarRatio) - background.startingBackgroundPositionLeft * (bgLeftUsingPercentagePosition ? 1 : 0)) * (bgLeftUsingPercentagePosition ? -1 : 1) + background.startingBackgroundPositionLeftUnit : background.startingValueLeft);
+                var bgTopUsingPercentagePosition = background.startingBackgroundPositionTopUnit === '%';
+				bgTop = (this.options.verticalScrolling ? ((scrollTop + background.verticalOffset - this.viewportOffsetTop - background.startingOffsetTop + background.parentOffsetTop - background.startingBackgroundPositionTop * (bgTopUsingPercentagePosition ? 0 : 1)) * (bgTopUsingPercentagePosition ? 100 / parseInt(background.$element.css('height'), 10) : 1) * (fixedRatioOffset - background.stellarRatio) - background.startingBackgroundPositionTop * (bgTopUsingPercentagePosition ? 1 : 0)) * (bgTopUsingPercentagePosition ? -1 : 1) + background.startingBackgroundPositionTopUnit : background.startingValueTop);
 
 				setBackgroundPosition(background.$element, bgLeft, bgTop);
 			}
@@ -602,7 +611,7 @@
 				}
 			};
 			
-			this.$scrollElement.bind('scroll.' + this.name, requestTick);
+			this.$scrollElement.bind('scroll.' + this.options.name, requestTick);
 			requestTick();
 		},
 		_startAnimationLoop: function() {

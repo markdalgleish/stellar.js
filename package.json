@@ -24,9 +24,9 @@
     "jquery": ">=1.4.3"
   },
   "bugs": "https://github.com/markdalgleish/stellar.js/issues",
-  "repository": {
+ "repository": {
     "type": "git",
-    "url": "git://github.com/markdalgleish/stellar.js.git"
+    "url": "git://github.com/unikent/stella.js.git"
   },
   "maintainers": [
     {
