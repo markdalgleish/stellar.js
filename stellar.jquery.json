@@ -21,7 +21,7 @@
     }
   ],
   "dependencies": {
-    "jquery": ">=1.4.3"
+    "jquery": ">=1.4.3 <3.0.0"
   },
   "bugs": "https://github.com/markdalgleish/stellar.js/issues",
   "docs": "http://markdalgleish.com/projects/stellar.js/docs",
