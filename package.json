@@ -31,7 +31,8 @@
     "Cristian Sanchez (http://cristian.sanchezaguilar.me)"
   ],
   "files": [
-    "jquery.stellar.js"
+    "jquery.stellar.js",
+    "jquery.stellar.min.js"
   ],
   "scripts": {
     "test": "grunt test"
