@@ -247,10 +247,10 @@ $.stellar({
 
 ## Package Managers
 
-Stellar.js can be installed with [Bower](http://bower.io/):
+Stellar.js can be installed with [npm](https://www.npmjs.com/):
 
 ``` bash
-$ bower install jquery.stellar
+$ npm install stellar.jquery
 ```
 
 ## Sites Using Stellar.js

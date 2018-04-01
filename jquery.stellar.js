@@ -1,23 +1,13 @@
 /*!
- * Stellar.js v0.6.4
+ * Stellar.js v0.6.2
  * http://markdalgleish.com/projects/stellar.js
  *
- * Copyright 2014, Mark Dalgleish
+ * Copyright 2018, Mark Dalgleish
  * This content is released under the MIT license
  * http://markdalgleish.mit-license.org
  */
 
-(function(factory) {
-    if (typeof define === "function" && define.amd) {
-        define(['jquery'], function($) {
-            return factory($);
-        });
-    } else if (typeof module === "object" && typeof module.exports === "object") {
-        exports = factory(require('jquery'));
-    } else {
-        factory(jQuery);
-    }
-})(function($) {
+;(function($, window, document, undefined) {
 
 	var pluginName = 'stellar',
 		defaults = {
@@ -244,7 +234,7 @@
 
 			// Fix for WebKit background rendering bug
 			if (options && options.firstLoad && /WebKit/.test(navigator.userAgent)) {
-				$(window).on('load',function() {
+				$(window).on('load', function() {
 					var oldLeft = self._getScrollLeft(),
 						oldTop = self._getScrollTop();
 
@@ -260,7 +250,7 @@
 			this._setScrollTop(oldTop);
 		},
 		_detectViewport: function() {
-			var viewportOffsets = this.$viewportElement.offset(),
+			var viewportOffsets = this.$viewportElement[0] !== window ? this.$viewportElement.offset() : {top: 0, left: 0},
 				hasOffsets = viewportOffsets !== null && viewportOffsets !== undefined;
 
 			this.viewportWidth = this.$viewportElement.width();
@@ -667,4 +657,4 @@
 
 	// Expose the plugin class so it can be modified
 	window.Stellar = Plugin;
-});
+}(jQuery, this, document));
