@@ -1,5 +1,5 @@
 /*!
- * Stellar.js v0.6.3
+ * Stellar.js v0.6.4
  * http://markdalgleish.com/projects/stellar.js
  *
  * Copyright 2014, Mark Dalgleish
