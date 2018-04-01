@@ -1,7 +1,7 @@
 {
   "name": "stellar",
   "title": "Stellar.js",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Parallax scrolling made easy.",
   "homepage": "http://markdalgleish.com/projects/stellar.js",
   "author":
@@ -23,7 +23,7 @@
   }],
   "dependencies":
   {
-    "jquery": ">=1.4.3"
+    "jquery": ">=3.2.1"
   },
   "bugs": "https://github.com/ahkui/stellar.js/issues",
   "docs": "http://markdalgleish.com/projects/stellar.js/docs",
