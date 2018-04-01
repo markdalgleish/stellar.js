@@ -45,7 +45,7 @@ module.exports = function(grunt) {
 		qunit: {
 			all: {
 				options: {
-					urls: ['1.4.3', '1.10.1', '2.0.2'].map(function(version) {
+					urls: ['3.2.1'].map(function(version) {
 						return 'http://localhost:<%= connect.server.options.port %>/test/jquery.stellar.html?jquery=' + version;
 					})
 				}
