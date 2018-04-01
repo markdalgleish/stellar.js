@@ -1,6 +1,6 @@
 {
 	"name": "jquery.stellar",
-	"version": "0.6.2",
+	"version": "0.6.3",
 	"main": ["./jquery.stellar.js"],
 	"dependencies": {
 		"jquery": ">=1.4.3"

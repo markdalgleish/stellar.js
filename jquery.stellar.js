@@ -1,5 +1,5 @@
 /*!
- * Stellar.js v0.6.2
+ * Stellar.js v0.6.3
  * http://markdalgleish.com/projects/stellar.js
  *
  * Copyright 2014, Mark Dalgleish
@@ -7,7 +7,17 @@
  * http://markdalgleish.mit-license.org
  */
 
-;(function($, window, document, undefined) {
+(function(factory) {
+    if (typeof define === "function" && define.amd) {
+        define(['jquery'], function($) {
+            return factory($);
+        });
+    } else if (typeof module === "object" && typeof module.exports === "object") {
+        exports = factory(require('jquery'));
+    } else {
+        factory(jQuery);
+    }
+})(function($) {
 
 	var pluginName = 'stellar',
 		defaults = {
@@ -234,7 +244,7 @@
 
 			// Fix for WebKit background rendering bug
 			if (options && options.firstLoad && /WebKit/.test(navigator.userAgent)) {
-				$(window).load(function() {
+				$(window).on('load',function() {
 					var oldLeft = self._getScrollLeft(),
 						oldTop = self._getScrollTop();
 
@@ -657,4 +667,4 @@
 
 	// Expose the plugin class so it can be modified
 	window.Stellar = Plugin;
-}(jQuery, this, document));
+});
