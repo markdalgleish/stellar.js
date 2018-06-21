@@ -269,6 +269,7 @@ $ bower install jquery.stellar
 * [Ian Poulter](http://www.ianpoulter.com)
 * [360 Strategy Group](http://360strategygroup.com)
 * [Code, Love and Boards](http://codeloveandboards.com/)
+* [180 Degrees Fitness](https://180fitness.co.uk/)
 
 I'm sure there are heaps more. [Let me know if you'd like me to feature your site here.](http://twitter.com/markdalgleish)
 
