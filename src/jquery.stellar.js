@@ -241,8 +241,11 @@
 			this._setScrollTop(oldTop);
 		},
 		_detectViewport: function() {
-			var viewportOffsets = this.$viewportElement.offset(),
-				hasOffsets = viewportOffsets !== null && viewportOffsets !== undefined;
+			var viewportOffsets = {
+				left: this.$viewportElement.scrollLeft(),
+				top: this.$viewportElement.scrollTop()
+			};
+			var hasOffsets = viewportOffsets !== null && viewportOffsets !== undefined;
 
 			this.viewportWidth = this.$viewportElement.width();
 			this.viewportHeight = this.$viewportElement.height();
