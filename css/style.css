@@ -1,0 +1,82 @@
+
+section {
+    padding: 25px 0 35px;
+    background: #fff;
+  }
+  
+  .parallax-container {
+    height: 500px;
+    width: 100%;
+  }
+  
+  pre {
+    overflow: auto;
+  }
+  
+  pre code {
+    word-wrap: normal;
+    white-space: pre;
+  }
+  
+  footer {
+    background: #000;
+    color: #ddd;
+    padding: 30px 0 30px;
+    text-align: center;
+  }
+  
+  footer a {
+    color: #ddd;
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    color: #eee;
+    text-decoration: underline;
+  }
+  
+
+
+
+=======
+section {
+    padding: 25px 0 35px;
+    background: #fff;
+  }
+  
+  .parallax-container {
+    height: 500px;
+    width: 100%;
+  }
+  
+  pre {
+    overflow: auto;
+  }
+  
+  pre code {
+    word-wrap: normal;
+    white-space: pre;
+  }
+  
+  footer {
+    background: #000;
+    color: #ddd;
+    padding: 30px 0 30px;
+    text-align: center;
+  }
+  
+  footer a {
+    color: #ddd;
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    color: #eee;
+    text-decoration: underline;
+  }
+  
+
+
+
+
+

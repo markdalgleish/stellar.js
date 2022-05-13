@@ -1,0 +1,126 @@
+HTML CSSResult Skip Results Iframe
+EDIT ON
+body { margin:0;padding:0;font-family:Verdana;}
+
+#header {
+  box-sizing:border-box;-moz-box-sizing:border-box;
+  z-index:3;
+  position:fixed;
+  top:0;
+  width:100%;
+  background:#FD62A9;
+  color:#000;
+  text-align:center;
+  -webkit-box-shadow: 0px 6px 5px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 0px 6px 5px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 6px 5px rgba(50, 50, 50, 0.75);
+  border-bottom:3px solid #000;
+}
+
+.parallax {
+  position:relative;
+  z-index:1;
+  height:450px;
+  -webkit-box-shadow: inset 0px -6px 5px rgba(50, 50, 50, 0.75);
+-moz-box-shadow: inset 0px -6px 5px rgba(50, 50, 50, 0.75);
+box-shadow: inset 0px -6px 5px rgba(50, 50, 50, 0.75);
+}
+
+#trans1 {
+  background: url('img/HOME.jpg') no-repeat fixed;
+  height:575px;
+  background-position: center top;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#trans2 {
+  background: url('img/ASSETFUSION.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#trans3 {
+  background: url('http://i1289.photobucket.com/albums/b506/katie_rogers6/KatieandJacob-372_zpsb1f5c475.jpg') no-repeat top center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height:550px;
+}
+
+.txt {
+  font-family: 'Niconne', cursive;
+  font-size:55px;
+  color:#000;
+  width:auto;
+  background:#FD62A9;
+  background:rgba(255, 102, 153, 0.60);
+  padding:5px 10px;
+}
+.txt.right {
+  margin: 150px 100px 0 0;
+  float:right;
+  text-align:right;
+}
+.txt.left {
+  float:left;
+  text-align:left;
+  margin: 150px 0 0 100px;
+}
+
+.txt.sub {
+  font-size:50px;
+  line-height:175%;
+  font-weight:lighter;
+  letter-spacing:1.5px;
+  background:#000;
+  background:rgba(0,0,0,0.60);
+  font-size:25px;
+  color:#ccc;
+  margin: 0 100px 0 100px;
+}
+.content {
+  box-sizing:border-box;-moz-box-sizing:border-box;
+  position:relative;
+  z-index:2;
+  background:#FFF;
+  width:100%;
+  display: inline-table;
+  margin:0;
+  padding:10px 20px;
+  -webkit-box-shadow: 0px 6px 5px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 0px 6px 5px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 6px 5px rgba(50, 50, 50, 0.75);
+  text-align:left;
+}
+
+.content.right {
+  text-align:right;
+}
+
+.content h2 { padding:0 25px; }
+.content p { padding:0 50px; }
+
+#footer {
+  text-align: center;
+  padding: 20px 0 20px;
+  box-sizing:border-box;-moz-box-sizing:border-box;
+  position:relative;
+  z-index:2;
+  background:#FFF;
+  width:100%;
+  height:auto;
+  margin:0;
+   -webkit-box-shadow: 90px 6px 5px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 90px 6px 5px rgba(50, 50, 50, 0.75);
+  box-shadow: 90px 6px 5px rgba(50, 50, 50, 0.75);
+}
+
+
+
+Resources1× 0.5× 0.25×Rerun

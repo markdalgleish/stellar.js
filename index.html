@@ -1,0 +1,90 @@
+
+<!doctype html>
+<html>
+	<head>
+		<title>Stellar.js Backgrounds Demo</title>
+		<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			font-family: helvetica, arial;
+			padding-top: 40px;
+		}
+		h1 {
+			background-color: black;
+			color: white;
+			height: 40px;
+			font-size: 24px;
+			font-weight: normal;
+			left: 0;
+			line-height: 40px;
+			position: fixed;
+			text-align: center;
+			top: 0;
+			width: 100%;
+			z-index: 1;
+		}
+		h1 a {
+			border-bottom: 1px solid white;
+			color: white;
+			display: inline-block;
+			line-height: 30px;
+			text-decoration: none;
+		}
+		.photo {
+			background-attachment: fixed;
+			background-position: 50% 0;
+			background-repeat: no-repeat;
+			height: 450px;
+			position: relative;
+		}
+		.photo span {
+			bottom: 0;
+			color: white;
+			display: block;
+			left: 50%;
+			margin-left: -640px;
+			font-size: 38px;
+			padding: 10px;
+			position: absolute;
+			text-shadow: 0 2px 0 black, 0 0 10px black;
+			width: 1280px;
+		}
+		.summer {
+			background-image: url(images/summer.jpg);
+		}
+		.autumn {
+			background-image: url(images/autumn.jpg);
+		}
+		.winter {
+			background-image: url(images/winter.jpg);
+		}
+		.spring {
+			background-image: url(images/spring.jpg);
+		}
+		</style>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/stellar.js"></script>
+		<script>
+		$(function(){
+			$.stellar({
+				horizontalScrolling: false,
+				verticalOffset: 40
+			});
+		});
+		</script>
+	</head>
+	<body>
+		<h1><a href="../">Stellar.js</a> Backgrounds Demo</h1>
+		<div class="photo summer" data-stellar-background-ratio="0.5"><span>Summer</span></div>
+		<div class="photo autumn" data-stellar-background-ratio="0.5"><span>Autumn</span></div>
+		<div class="photo winter" data-stellar-background-ratio="0.5"><span>Winter</span></div>
+		<div class="photo spring" data-stellar-background-ratio="0.5"><span>Spring</span></div>
+		<div class="photo summer" data-stellar-background-ratio="0.5"><span>Summer</span></div>
+		<div class="photo autumn" data-stellar-background-ratio="0.5"><span>Autumn</span></div>
+		<div class="photo winter" data-stellar-background-ratio="0.5"><span>Winter</span></div>
+		<div class="photo spring" data-stellar-background-ratio="0.5"><span>Spring</span></div>
+	</body>
+</html>
